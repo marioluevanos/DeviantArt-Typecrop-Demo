@@ -225,170 +225,137 @@ section {
 	position: relative;
 	padding: 120px 0;
 	box-sizing: border-box;
-
 	header {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
-	}
-	.inputs {
-		position: relative;
-		overflow: hidden;
-	}
-	h4 {
-		margin-bottom: 20px;
-		color: $color-light-gray;
+		h4 {
+			margin-bottom: 20px;
+			color: $color-light-gray;
+		}
 	}
 	$button-width: 190px;
-	input {
-		height: 90px;
-		line-height: 0;
-		padding: 15px;
-		font-size: 2em;
-		border: none;
-		box-sizing: border-box;
-		border-radius: 2px;
-		display: block;
-		float: left;
-		outline: none;
-		&[type='text'] {
-			width: calc(100% - 190px - 5px);
-		}
-		&.button {
-			color: black;
-			background: $color-primary-green;
-			padding: 15px 30px;
-			margin-left: 5px;
+	$outer-padding: 60px;
+	.inputs {
+		position: relative;
+		input {
+			height: 90px;
+			line-height: 0;
+			padding: 15px;
+			font-size: 2em;
 			border: none;
-			border: 1px solid $color-primary-green;
 			box-sizing: border-box;
-			font-family: 'Calibre-Semibold';
-			text-transform: uppercase;
-			cursor: pointer;
-			width: $button-width;
-			&:active {
-				background: black;
-				color: $color-primary-green;
+			border-radius: 2px;
+			display: block;
+			float: left;
+			outline: none;
+			&[type='text'] {
+				width: calc(100% - 190px - 5px);
 			}
-			&#save {
-				border: 1px solid $color-teal-2;
-				background: $color-teal-2;
-				position: absolute;
-				bottom: 0; right: 0;
-				display: none;
-				&:active {
+			&.button {
+				color: black;
+				background: $color-primary-green;
+				padding: 15px 30px;
+				margin-left: 5px;
+				border: none;
+				border: 1px solid $color-primary-green;
+				box-sizing: border-box;
+				font-family: 'Calibre-Semibold';
+				text-transform: uppercase;
+				cursor: pointer;
+				width: $button-width;
+				&:active,
+				&:focus {
 					background: black;
-					color: $color-teal-2;
-				}
-				&.show {
-					display: block;
-				}
-			}
-			&#download {
-				border: 1px solid $color-teal-2;
-				background: $color-teal-2;
-				position: absolute;
-				top: 100%; right: 0;
-				display: none;
-				&:active {
-					background: black;
-					color: $color-teal-2;
-				}
-				&.show {
-					display: block;
+					color: $color-primary-green;
 				}
 			}
 		}
 	}
+
 	.test-area {
 		position: relative;
 		margin: 120px 0;
 		min-height: 96px;
-		transition: transform 1s ease-in-out;
+		z-index: 1;
+		transition: all 1s ease-in-out;
 		&:before {
 			content: '';
 			position: absolute;
-			top: -30px; right: -30px; bottom: -30px; left: -30px;
-			background: url($fp + 'bg-pattern-canvas.png');
-			opacity: 0.1;
+			top: -$outer-padding + 10; right: -$outer-padding + 10; bottom: -$outer-padding + 10; left: -$outer-padding + 10;
+			background: url($fp + 'bg-pattern-canvas.png') fixed;
+			border-radius: 2px;
+			opacity: 0.15;
+			z-index: 1;
 		}
 		&:after {
 			content: '';
 			position: absolute;
-			top: -60px; right: -60px; bottom: -60px; left: -60px;
+			top: -$outer-padding; right: -$outer-padding; bottom: -$outer-padding; left: -$outer-padding;
+			background: white;
 			border: 1px solid $color-secondary-black;
-		}
-	}
-	.test-target {
-		font-size: 120px;
-		line-height: 0.8;
-		position: relative;
-		opacity: 0.5;
-	}
-	canvas {
-		position: absolute;
-		top: -1px; left: 0;
-		display: none;
-		z-index: 1;
-	}
-	.options {
-		display: flex;
-		h4 {
-			margin-right: 20px;
-		}
-		input {
-			position: absolute;
-			opacity: 0;
+			border-radius: 2px;
 			z-index: -1;
 		}
-		$circum: 15px;
-		input + label {
-			cursor: pointer;
-			font: 16px 'Calibre-Semibold';
-			line-height: $circum;
-			height: $circum;
-			border-radius: 2px;
-			color: $color-light-gray;
-			text-transform: uppercase;
-			display: inline-block;
+		.test-target {
+			font-size: 120px;
+			line-height: 0.8;
 			position: relative;
-			padding: 0 0 0 $circum + 5px;
-			&:before {
-				content: '';
-				position: absolute;
-				left: 0; top: 50%;
-				width: $circum;
-				height: $circum;
-				margin-left: -5px;
-				border-radius: 100%;
-				box-sizing: border-box;
-				border: 2px solid lighten($color-secondary-black, 15%);
-				transform: translate(0, -50%);
-			}
-			&:after {
-				content: '';
-				position: absolute;
-				width: $circum/2;
-				height: $circum/2;
-				border-radius: 100%;
-				top: 50%; left: 3px;
-				box-sizing: border-box;
-				transform: translate(-50%, -50%);
-				background: none;
-			}
-			&:not(:last-of-type) {
-				margin: 0 15px 0 0;
-			}
+			color: black;
 		}
-
-		input:checked + label {
+		canvas {
+			position: absolute;
+			top: -1px; left: 0;
+			display: none;
+			z-index: 1;
+		}
+	}
+	#download {
+		outline: none;
+		width: $button-width;
+		height: 60px;
+		display: inline-block;
+		background: black;
+		border: none;
+		cursor: pointer;
+		padding: 0;
+		position: absolute;
+		bottom: -$outer-padding;
+		right: -$outer-padding;
+		z-index: 4;
+		span {
+			font-size: 1.25em;
+			position: absolute;
+			top: 50%;
+			left: 10%;
+			padding-left: 15%;
+			transform: translate(0, -40%);
+			color: white;
+			transition: color 0.15s linear;
+		}
+		svg.icon-download {
+			fill: white;
+			width: auto;
+			height: 100%;
+			position: absolute;
+			left: 0; bottom: 0;
+			display: block;
+			transform: translate(0, 5px);
+			transition: fill 0.15s linear;
+		}
+		svg.ui-shape {
+			position: absolute;
+			bottom: 0; left: 0;
+			width: auto;
+			height: 100%;
+			fill: black;
+			transform: translate(-100%, 0);
+		}
+		&:hover span {
 			color: $color-primary-green;
-			&:before {
-				border: 2px solid $color-primary-green;
-			}
-			&:after {
-				background: $color-primary-green;
-			}
+		}
+		&:hover svg.icon-download {
+			fill: $color-primary-green;
 		}
 	}
 }

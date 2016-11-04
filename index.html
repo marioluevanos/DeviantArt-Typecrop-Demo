@@ -38,21 +38,37 @@
 	</section>
 	<hr>
 	<section id='test'>
-		<div class="wrap clear">
+			<div class="wrap clear">
 			<div class="col-8 before-2">
 				<header>
 					<h4>SVG Replacement Demo</h4>
 				</header>
 				<div class="inputs clear">
-					<input type='text' placeholder='Test Your Might!' id='input' />
+					<input type='text' placeholder='Test Your Might!' id='input' class='input-val' />
 					<input class='button' type='button' value='Enter' id='enter' />
-					<input class='button' type='button' value='Save' id='save' />
-					<!-- <a class='button' value='DL' id='download'>Download</a> -->
 				</div>
+				<!-- <div class="options clear">
+					<input id='size-72' type='radio' value='72px' name='font-size' />
+					<label for='size-72'>72px</label>
+					<input id='size-72' type='radio' value='72px' name='font-size' />
+					<label for='size-72'>72px</label>
+				</div> -->
 				<div class='test-area'>
-					<h3 class='test-target'>...</h3>
+					<h3 class='test-target input-val'></h3>
 					<canvas id='canvas'></canvas>
+					<a id='download'>
+						<span>
+							<svg viewBox='0 0 23.4 29.8' class='icon-download'>
+								<use xlink:href='#icon-download'></use>
+							</svg>
+							Download
+						</span>
+						<svg viewBox='0 0 265 359' class='ui-shape'>
+							<use xlink:href='#ui-shape'></use>
+						</svg>
+					</a>
 				</div>
+
 			</div>
 		</div>
 	</section>
@@ -94,6 +110,13 @@
 				l-13.3-26.8l-5.5,0h-6.7V204h-27.5v-91.7h43.6C424.9,112.3,439.2,124.4,439.2,145.5z M401,136.6h-12.2v18.5H401
 				c7.4,0,10.3-3.7,10.3-9.2C411.2,140.3,408.4,136.6,401,136.6z M520.3,136.6h-23.6v44.9L484.9,204h-15.7v-67.4h-26v-24.3H533
 				L520.3,136.6z" />
+			</g>
+			<g id='icon-download'>
+				<polygon points="8.8,20.2 8.8,18.7 1.5,18.7 1.5,6.6 6.6,1.5 21.9,1.5 21.9,13.6 16.8,18.7 13.5,18.7 13.5,20.2 17.4,20.2 23.4,14.3 23.4,0 6,0 0,6 0,20.2"/>
+				<polygon points="11.9,26.8 11.9,8.3 10.4,8.3 10.4,26.8 5.8,22.2 4.7,23.3 11.2,29.8 17.7,23.3 16.6,22.2"/>
+			</g>
+			<g id='ui-shape'>
+				<path d="M1.4,359H265V0h-28.9l-48.4,32.6L34,325L0,359H1.4z"/>
 			</g>
 		</defs>
 	</svg>

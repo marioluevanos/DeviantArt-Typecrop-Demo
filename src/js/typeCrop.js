@@ -86,6 +86,7 @@ function typeCrop(titles, svgSource) {
             var caseConvert = word.innerHTML
                 .toLowerCase()
                 .replace(regEx, normalized);
+
             return caseConvert.match(regEx);
         });
 
@@ -125,7 +126,7 @@ function typeCrop(titles, svgSource) {
             .map(function(attr, i) {
                 var log = {};
                 if (attr !== undefined) {
-                    var styles = 'position: absolute; top: 0; left: 0; bottom: 0; width: 100%; height: auto';
+                    var styles = 'position: absolute; top: 0; left: 0; bottom: 0; width: 100%; height: 100%';
                     var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="' + attr.viewBox + '" style="' + styles + '">';
                     svg += '<use xlink:href="#' + attr.letter + '"></use>';
                     svg += '</svg>';
@@ -137,6 +138,7 @@ function typeCrop(titles, svgSource) {
                 for (var paths in letter) {
                     svgCatalog[paths] = letter[paths];
                 }
+
                 return svgCatalog;
             }, []);
     };
@@ -213,7 +215,8 @@ function typeCrop(titles, svgSource) {
     };
 
     /* Make request and get the SVG files */
-    httpRequest('GET', svgSource)
+
+    return httpRequest('GET', svgSource)
         .then(loadSVG)
         .then(getAttributes)
         .then(makeLetterSet)
