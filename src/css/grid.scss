@@ -1,0 +1,152 @@
+//-------------------------------------------
+// XX COLUMN GRID
+//-------------------------------------------
+
+/* Default Variables */
+$column_name		: col !default;
+$column_before 		: before !default;
+$column_after 		: after !default;
+$max_width 			: 1290; // Unit in pixels
+$column_count 		: 12;
+$column_gutter 		: 15; // Unit in pixels
+$column_width 		: ($max-width / $column_count) - ($column_gutter * 2); // Unit in percentages
+
+/* Column Wrapper */
+.wrap {
+	max-width 	: $max_width + px;
+	margin 		: auto;
+	padding 	: 0 $column_gutter + px;
+	position 	: relative;
+
+	.wrap {
+		width 	: 100%;
+		padding : 0;
+	}
+
+	&.wide { max-width: 1500px; }
+
+	/* Main Columns */
+	div[class^="col-"] {
+
+		float 		: left;
+		box-sizing 	:  content-box;
+		display 	: inline-block;
+		margin 		: 0 $column_gutter / $max-width * 100%;
+
+		.alpha { margin-left 	: 0 !important; }
+		.omega { margin-right 	: 0 !important; }
+	}
+}
+
+/* Main Column Widths && Before & After */
+@for $index from 1 through $column_count {
+
+	// Variables getting values
+	$each_gutter	: ($index - 1 ) * $column_gutter * 2;
+	$each_col		: ($column_width * $index) + $each_gutter;
+
+	/* .col-* Declarations */
+	.#{$column_name}-#{$index} {
+
+		width: $each_col / $max-width * 100%;
+
+	}
+
+	/* .before-* Declarations */
+	.#{$column_before}-#{$index} {
+		padding-left: (($column_width * $index) + ($index) * ($column_gutter * 2)) / $max-width * 100%;
+	}
+
+	/* .after-* Declarations */
+	.#{$column_after}-#{$index} {
+		padding-right: (($column_width * $index) + ($index) * ($column_gutter * 2)) / $max-width * 100%;
+	}
+
+}
+
+/* NESTED COLUMNS */
+@for $i from 1 through $column_count {
+	.#{$column_name}-#{$i} .wrap {
+		$each_gutter_out	: ($i - 1 ) * $column_gutter * 2;
+		$each_col_out		: ($column_width * $i) + $each_gutter_out;
+		$j					: $i;
+		@while $j > 0 {
+			.#{$column_name}-#{$j} {
+				$each_gutter	: ($j - 1 ) * $column_gutter * 2;
+				$each_col		: ($column_width * $j) + $each_gutter;
+				width 			: ($each_col / $each_col_out) * 100%;
+				// Don't add margins if width is at 100%
+				@if $i > $j {
+					margin: 0 ($column_gutter / $each_col_out) * 100%;
+				}
+			}
+			$j: $j - 1;
+		}
+	}
+}
+
+/* NESTED BEFORE */
+@for $i from 1 through $column_count {
+	.#{$column_name}-#{$i} .wrap {
+		$each_gutter_out	: ($i - 1 ) * $column_gutter * 2;
+		$each_col_out		: ($column_width * $i) + $each_gutter_out;
+		$j					: $i;
+		@while $j > 0 {
+
+			//- <div class='before-${j}'>
+			.#{$column_before}-#{$j} {
+
+				$each_gutter	: ($j - 1 ) * $column_gutter * 2;
+				$each_col		: ($column_width * $j) + $each_gutter;
+
+				@if $i > $j {
+					$total_gutter 	: ($column_gutter * 2) * $j;
+					$total_cols 	: $column_width * $j;
+					padding-left 	: ($total_gutter + $total_cols) / $each_col_out * 100%;
+				}
+			}
+			$j: $j - 1;
+		}
+	}
+}
+
+/* NESTED AFTER */
+@for $i from 1 through $column_count {
+	.#{$column_name}-#{$i} .wrap {
+		$each_gutter_out	: ($i - 1 ) * $column_gutter * 2;
+		$each_col_out		: ($column_width * $i) + $each_gutter_out;
+		$j					: $i;
+		@while $j > 0 {
+			.#{$column_after}-#{$j} {
+				$each_gutter	: ($j - 1 ) * $column_gutter * 2;
+				$each_col		: ($column_width * $j) + $each_gutter;
+				@if $i > $j {
+					$total_gutter: ($column_gutter * 2) * $j;
+					$total_cols: $column_width * $j;
+					padding-right: ($total_gutter + $total_cols) / $each_col_out * 100%;
+				}
+			}
+			$j: $j - 1;
+		}
+	}
+}
+
+/* IFRAMES */
+@for $i from 1 through $column_count {
+	.#{$column_name}-#{$i} iframe {
+		$each_gutter	: ($i - 1 ) * $column_gutter * 2;
+		$each_col		: ($column_width * $i) + $each_gutter;
+		$ratio			: ($each_col * 56.25) / 100;
+		height 			: floor($ratio) + px;
+	}
+}
+
+.clear {
+	clear:both;
+	&:before,
+	&:after {
+		content:"";
+		display:table;
+	}
+	&:after { clear:both; }
+}

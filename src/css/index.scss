@@ -1,0 +1,445 @@
+@import 'grid';
+
+$color-white 			: #fff;
+$color-primary-white	: #F2F2F2;
+$color-black 			: #000;
+$color-primary-black	: #181A1B;
+$color-secondary-black	: #242626;
+$color-light-gray		: #7D8080;
+$color-dark-gray		: #4F5254;
+
+//- COLOR - TEAL
+// ---------------------------------
+
+$color-teal-1			: #D4F5F2;
+$color-teal-2			: #40CfC7;
+$color-teal-3			: #34807A;
+$color-teal-4			: #1F3833;
+
+//- COLORS - GREEN
+// ---------------------------------
+
+$color-primary-green	: #05CC47;
+$color-green-1			: #D4F5DE;
+$color-green-2			: #4DC47D;
+$color-green-3			: #42794F;
+$color-green-4			: #1F3626;
+
+//- COLOR - UI
+// ---------------------------------
+
+$color-primary-orange	: #F7590A;
+
+$ease-in-out			: cubic-bezier(0.80, 0.00, 0.20, 1.00);
+$ease-out				: cubic-bezier(0.20, 0.70, 0.20, 1.00);
+$fp 					: 'src/img/';
+
+$fonts: (
+	'Calibre-Regular',
+	'Calibre-Semibold',
+	'Calibre-Bold'
+);
+
+@function str-replace($string, $search, $replace: '') {
+	/* @author Hugo Giraudel */
+	$index: str-index($string, $search);
+	@if $index {
+		@return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+	}
+	@return $string;
+}
+
+@each $font in $fonts {
+
+	$string : $font;
+	$url 	: 'src/fonts/CalibreWeb-' + str-replace($string, 'Calibre-', '');
+
+	@font-face {
+		font-family: #{$font};
+		src: url($url + '.eot');
+		src: url($url + '.eot?#iefix') format('embedded-opentype'),
+			 url($url + '.woff') format('woff');
+	}
+}
+
+body {
+	font-family: 'Calibre-Regular';
+	background: $color-secondary-black;
+	height: 100vh;
+	margin: 0;
+	opacity: 0;
+	overflow: hidden;
+	transition: opacity 0.3s linear 0.3s;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	&.loaded {
+		opacity: 1;
+		overflow: scroll;
+	}
+	&:after {
+		content: '';
+		position: fixed;
+		top: 0; right: 0; bottom: 0;
+		left: 0;
+		background: $color-primary-black;
+		transform: translate(50%, 0) skew(-28deg);
+		z-index: -1;
+	}
+}
+
+h1, h2, h3, h4 {
+	text-transform: uppercase;
+	font-family: 'Calibre-Bold';
+	line-height: 0.8;
+	margin: 0;
+	color: white;
+}
+
+h2 { font-size: 10vmin;}
+
+section h3.da-title {
+	font-size: 6vmin;
+	margin: 0 0 30px 0;
+	border-bottom: 1px solid $color-dark-gray;
+	padding-bottom: 30px;
+}
+
+section p {
+	margin: 0 0 15px;
+	color: white;
+}
+
+hr {
+	background: black url($fp + 'bg-pattern-black.gif') 0 0/32px auto repeat;
+	margin: 0;
+	border: none;
+	height: 120px;
+	display: block;
+}
+
+.image {
+	position: relative;
+	img {
+		width: 100%;
+	}
+}
+
+.logo-mark {
+	position: fixed;
+	top: 30px;
+	left: 30px;
+	fill: $color-primary-green;
+	height: 40px;
+	width: auto;
+	z-index: 1;
+}
+
+.logo-type {
+	position: fixed;
+	bottom: 30px;
+	right: 30px;
+	fill: white;
+	height: 40px;
+	width: auto;
+	z-index: 1;
+}
+
+#svgs {
+	position: absolute;
+	width: 0;
+	height: 0;
+}
+
+section {
+	padding: 120px 0;
+	position: relative;
+	color: white;
+	.da-title {
+		color: $color-primary-green;
+	}
+}
+
+.v-center {
+	position: relative;
+	top: 50%;
+	transform: translate(0, -50%);
+}
+
+[class*='bg'] {
+	height: 100vh;
+	padding: 0;
+}
+
+.bg-1 {
+	background: url($fp + 'img-1.jpg') 50% 30%/cover no-repeat fixed;
+	h1 {
+		color: white;
+		font: normal 7vw/0.75 'Calibre-Bold';
+	}
+}
+
+.bg-2 {
+	background: url($fp + 'img-2.jpg') 50% 30%/cover no-repeat fixed;
+	h1 {
+		color: white;
+		font: normal 12vw/0.75 'Calibre-Bold';
+	}
+}
+
+.bg-3 {
+	background: url($fp + 'img-3.jpg') 50% 30%/cover no-repeat fixed;
+	h1 {
+		color: black;
+		font: normal 8vw/0.75 'Calibre-Bold';
+	}
+}
+
+.bg-4 {
+	background: url($fp + 'img-4.jpg') 50% 100%/cover no-repeat fixed;
+	h1 {
+		color: $color-primary-green;
+		font: normal 8vw/0.75 'Calibre-Bold';
+	}
+}
+
+#alphabet {
+	padding: 0;
+	background: rgba(black, 0.3);
+	display: flex;
+	flex-wrap: wrap;
+	div {
+		text-align: center;
+		width: 19.8%;
+		margin: 0.1%;
+		background: rgba(black, 0.15);
+		box-sizing: border-box;
+		.da-title {
+			color: $color-light-gray;
+			margin: 30% 0;
+		}
+	}
+}
+
+#test {
+	background: black;
+	position: relative;
+	padding: 120px 0;
+	box-sizing: border-box;
+
+	header {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+	.inputs {
+		position: relative;
+		overflow: hidden;
+	}
+	h4 {
+		margin-bottom: 20px;
+		color: $color-light-gray;
+	}
+	$button-width: 190px;
+	input {
+		height: 90px;
+		line-height: 0;
+		padding: 15px;
+		font-size: 2em;
+		border: none;
+		box-sizing: border-box;
+		border-radius: 2px;
+		display: block;
+		float: left;
+		outline: none;
+		&[type='text'] {
+			width: calc(100% - 190px - 5px);
+		}
+		&.button {
+			color: black;
+			background: $color-primary-green;
+			padding: 15px 30px;
+			margin-left: 5px;
+			border: none;
+			border: 1px solid $color-primary-green;
+			box-sizing: border-box;
+			font-family: 'Calibre-Semibold';
+			text-transform: uppercase;
+			cursor: pointer;
+			width: $button-width;
+			&:active {
+				background: black;
+				color: $color-primary-green;
+			}
+			&#save {
+				border: 1px solid $color-teal-2;
+				background: $color-teal-2;
+				position: absolute;
+				bottom: 0; right: 0;
+				display: none;
+				&:active {
+					background: black;
+					color: $color-teal-2;
+				}
+				&.show {
+					display: block;
+				}
+			}
+			&#download {
+				border: 1px solid $color-teal-2;
+				background: $color-teal-2;
+				position: absolute;
+				top: 100%; right: 0;
+				display: none;
+				&:active {
+					background: black;
+					color: $color-teal-2;
+				}
+				&.show {
+					display: block;
+				}
+			}
+		}
+	}
+	.test-area {
+		position: relative;
+		margin: 120px 0;
+		min-height: 96px;
+		transition: transform 1s ease-in-out;
+		&:before {
+			content: '';
+			position: absolute;
+			top: -30px; right: -30px; bottom: -30px; left: -30px;
+			background: url($fp + 'bg-pattern-canvas.png');
+			opacity: 0.1;
+		}
+		&:after {
+			content: '';
+			position: absolute;
+			top: -60px; right: -60px; bottom: -60px; left: -60px;
+			border: 1px solid $color-secondary-black;
+		}
+	}
+	.test-target {
+		font-size: 120px;
+		line-height: 0.8;
+		position: relative;
+		opacity: 0.5;
+	}
+	canvas {
+		position: absolute;
+		top: -1px; left: 0;
+		display: none;
+		z-index: 1;
+	}
+	.options {
+		display: flex;
+		h4 {
+			margin-right: 20px;
+		}
+		input {
+			position: absolute;
+			opacity: 0;
+			z-index: -1;
+		}
+		$circum: 15px;
+		input + label {
+			cursor: pointer;
+			font: 16px 'Calibre-Semibold';
+			line-height: $circum;
+			height: $circum;
+			border-radius: 2px;
+			color: $color-light-gray;
+			text-transform: uppercase;
+			display: inline-block;
+			position: relative;
+			padding: 0 0 0 $circum + 5px;
+			&:before {
+				content: '';
+				position: absolute;
+				left: 0; top: 50%;
+				width: $circum;
+				height: $circum;
+				margin-left: -5px;
+				border-radius: 100%;
+				box-sizing: border-box;
+				border: 2px solid lighten($color-secondary-black, 15%);
+				transform: translate(0, -50%);
+			}
+			&:after {
+				content: '';
+				position: absolute;
+				width: $circum/2;
+				height: $circum/2;
+				border-radius: 100%;
+				top: 50%; left: 3px;
+				box-sizing: border-box;
+				transform: translate(-50%, -50%);
+				background: none;
+			}
+			&:not(:last-of-type) {
+				margin: 0 15px 0 0;
+			}
+		}
+
+		input:checked + label {
+			color: $color-primary-green;
+			&:before {
+				border: 2px solid $color-primary-green;
+			}
+			&:after {
+				background: $color-primary-green;
+			}
+		}
+	}
+}
+
+// section:not(#test):not(#alphabet)
+// canvas
+// {
+// 	display: none;
+// }
+
+@media (max-width: 767px) {
+	.wrap div[class^='col'],
+	.wrap div[class^='before'] {
+		float: none;
+		width: auto;
+		display: block;
+		margin: 0;
+		padding: 0;
+	}
+	.logo-type {
+		position: fixed;
+		right: 60px;
+		height: 20px;
+	}
+	[class*='bg-'] h1 {
+		font-size: 13vw;
+	}
+	#alphabet div {
+		width: 50%;
+		margin: 0;
+	}
+	#alphabet div h2.da-title {
+		font-size: 23vw;
+	}
+	#test,
+	section {
+		padding: 30px 0;
+	}
+	section h3.da-title {
+		font-size: 13vw;
+	}
+	#test input[type='text'] {
+		width: 100%;
+		display: block;
+	}
+	#test input.button {
+		margin: 5px 0;
+		display: block;
+		width: 100%;
+	}
+	#test .test-area {
+		margin: 60px 0;
+	}
+}
