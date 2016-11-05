@@ -2,306 +2,375 @@
 
 function TypeTest() {
 
-	/* Event Buttons */
-	this.input = document.querySelector('#input');
-	this.enterButton = document.querySelector('#enter');
-	this.downloadButton = document.querySelector('#download');
+    /* Event Buttons */
+    this.input = document.querySelector('#input');
+    this.enterButton = document.querySelector('#enter');
+    this.downloadButton = document.querySelector('#download');
 
-	/* Render Target */
-	this.targetClass = '.test-target';
-	this.target = document.querySelector(this.targetClass);
-	this.testArea = document.querySelector('.test-area');
+    this.inputFontSize = document.querySelector('#font-size');
+    this.inputFontSizeVal = document.querySelector('#font-size-val')
 
-	/* Canvas Element */
-	this.canvas = document.querySelector('#canvas');
-	this.context = this.canvas.getContext('2d');
+    this.inputFontWidth = document.querySelector('#font-width');
+    this.inputFontWidthVal = document.querySelector('#font-width-val')
 
-	/* Events */
-	this.enterButton.addEventListener('click', this.renderSVG.bind(this), false);
-	this.downloadButton.addEventListener('click', this.renderCanvas.bind(this), false);
-	this.input.addEventListener('focus', this.resetInput.bind(this), false);
-	this.input.addEventListener('click', this.resetInput.bind(this), false);
+    /* Render Target */
+    this.targetClass = '.test-target';
+    this.target = document.querySelector(this.targetClass);
+    this.testArea = document.querySelector('.test-area');
 
-	this.bindTextInputs();
+    /* Canvas Element */
+    this.canvas = document.querySelector('#canvas');
+    this.context = this.canvas.getContext('2d');
 
-	if (!this.ifWebKit()) {
-		this.downloadButton.style.display = 'none';
-	}
+    /* Initialize Events */
+    this.enterButton.addEventListener('click', this.renderSVG.bind(this), false);
+    this.downloadButton.addEventListener('click', this.renderCanvas.bind(this), false);
+    this.input.addEventListener('focus', this.resetInput.bind(this), false);
+    this.input.addEventListener('click', this.resetInput.bind(this), false);
 
-	return this;
+    /* Font Input Events */
+    this.inputFontSize.addEventListener('input', this.resize.bind(this), false);
+    this.inputFontWidth.addEventListener('input', this.resize.bind(this), false);
+
+    this.bindInput({ sharedClass: 'input-val', outputHTMLElement: 'h3' });
+    this.reizeInit();
+
+    /* Disable for Firefox */
+    if (!this.ifWebKit()) {
+        this.downloadButton.style.display = 'none';
+    }
+
+    return this;
 }
 
 TypeTest.prototype = {
-	createAlphabetClass: function(className) {
-		var alphabet = [
-			'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
-			'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
-			'w', 'x', 'y', 'z'
-		];
-		/* Create test alphabet */
-		var letter = alphabet.map(function(letter) {
-			var box = document.createElement('div');
-			var title = document.createElement('h2');
-			title.classList.add(className.replace(/[.]/g, ''));
-			title.innerHTML = letter.toUpperCase() + '' + letter;
-			box.appendChild(title);
-			return box;
-		});
-		return {
-			/* Append test alphabet */
-			to: function(id) {
-				letter.forEach(function(box) {
-					var target = document.querySelector(id);
-					if (target) {
-						target.appendChild(box);
-					} else {
-						return;
-					}
-				});
-				typeCrop(className);
-			}
-		};
-	},
-	ifWebKit: function() {
-		return /Chrome|Safari/g.test(window.navigator.userAgent);
-	},
-	bindTextInputs: function() {
+    createAlphabetClass: function(className) {
+        var alphabet = [
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+            'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+            'w', 'x', 'y', 'z'
+        ];
 
-		var bindClasses = ['input-val'];
-		var self = this;
+        /* Create test alphabet */
+        var letter = alphabet.map(function(letter) {
+            var box = document.createElement('div');
+            var title = document.createElement('h2');
+            title.classList.add(className.replace(/[.]/g, ''));
+            title.innerHTML = letter.toUpperCase() + '' + letter;
+            box.appendChild(title);
+            return box;
+        });
+        return {
 
-		var bindEvents = function(classNames) {
+            /* Append test alphabet */
+            to: function(id) {
+                letter.forEach(function(box) {
+                    var target = document.querySelector(id);
+                    if (target) {
+                        target.appendChild(box);
+                    } else {
+                        return;
+                    }
+                });
+                typeCrop(className);
+            }
+        };
+    },
+    ifWebKit: function() {
+        return /Chrome|Safari/g.test(window.navigator.userAgent);
+    },
+    reizeInit: function() {
+        var init = this.resize();
+            init.resizeFont();
+            init.resizeWidth();
+    },
+    resize: function(event) {
+        var self = this;
+        var get = self.getFont();
+        var target = self.target;
 
-			classNames.forEach(function(className) {
+        var resizeFont = function() {
+            var size = get.size();
+            target.style.fontSize = size;
+            self.inputFontSizeVal.innerHTML = size;
+        };
+        var resizeWidth = function() {
+            var width = get.width();
+            target.style.width = width;
+            self.inputFontWidthVal.innerHTML = width;
+        };
 
-				var elements = [].slice.call(
-					document.getElementsByClassName(className)
-				);
+        if (event !== undefined) {
+            var     isFontSize      = event.target.id === 'font-size';
+            var     isFontWidth     = event.target.id === 'font-width';
+            if      (isFontSize)    { resizeFont(); }
+            else if (isFontWidth)   { resizeWidth(); }
+            else                    { return; }
+        }
+        else {
+            return {
+                resizeFont: resizeFont,
+                resizeWidth: resizeWidth
+            };
+        }
+        self.resetInput();
+    },
+    getFont: function() {
+        var size = this.inputFontSize;
+        var width = this.inputFontWidth;
+        return {
+            size: function() {
+                return parseFloat(size.value) + 'px';
+            },
+            width: function() {
+                return parseFloat(width.value) + '%';
+            }
+        };
+    },
+    bindInput: function(options) {
 
-				var get = function(type, element, i) {
-					return (element.nodeName.toLowerCase() === type) && element;
-				};
+        var self = this;
 
-				var inputs = elements.filter(get.bind(null, 'input'));
-				var targets = elements.filter(get.bind(null, 'h3'));
+        /* Convert Nodes to Arrays */
+        var elements = function(className) {
+            return [].slice.call(
+                document.getElementsByClassName(className)
+            );
+        };
 
-				inputs.forEach(function(input) {
-					input.onkeyup = function(e) {
-						self.resetInput();
-						targets.forEach(function(target) {
-							target.innerHTML = this.value;
-						}.bind(this));
-					}
-				});
-			});
-		};
+        /* Get the inputs  */
+        var get = function(type, element) {
+            return (element.nodeName.toLowerCase() === type) && element;
+        };
 
-		bindEvents(bindClasses);
-	},
-	resetInput: function() {
-		this.canvas.style.display = 'none';
-		this.testArea.style.minHeight = '';
-		this.disable(this.enterButton, false);
-	},
-	renderSVG: function() {
-		this.target.innerHTML = this.input.value;
-		return typeCrop(this.targetClass);
-	},
-	renderCanvas: function() {
+        /* Filter, get the input and output targets */
+        var inputs = elements([options.sharedClass]).filter(get.bind(null, 'input'));
+        var targets = elements([options.sharedClass]).filter(get.bind(null, options.outputHTMLElement));
 
-		var self = this;
-		var renderSVG = self.renderSVG();
+        var updateTargets = function() {
+            /* Update the target  */
+            targets.forEach(function(target) {
+                target.innerHTML = this.value;
+            }.bind(this));
+            self.resetInput();
+        };
 
-		/* Copy the the SVG alphabet paths as a 'String' */
-		var getPaths = function() {
-			return document
-				.querySelector('#typeCropSVG')
-				.innerHTML
-				/* Delete white-space */
-				.replace(/[^\S]{2,}/gm, ' ');
-		};
+        /* Event Handler  */
+        inputs.forEach(function(input) {
+            input.onkeyup = updateTargets;
+        });
 
-		/* Get dimesions of the originally rendered SVG to copy it's size for the Canvas */
-		var canvasAttr = function(paths) {
-			return {
-				width: self.target.clientWidth,
-				height: self.target.clientHeight,
-				paths: paths
-			};
-		};
+    },
+    disable: function(bool) {
+        /* Disable the enter button */
+        this.enterButton.disabled = bool;
+        this.enterButton.classList.toggle('disabled', bool);
 
-		var setCanvasSize = function(attrs) {
+        /* Hide the HTML DOM Element to make room for the Canvas */
+        this.target.style.position = bool ? 'absolute' : 'relative';
+        this.target.style.left = bool ? '-9999em' : '0';
+    },
+    resetInput: function() {
+        this.canvas.style.display = 'none';
+        this.disable(false);
+    },
+    renderSVG: function() {
+        this.target.innerHTML = this.input.value;
+        return typeCrop(this.targetClass);
+    },
+    renderCanvas: function() {
 
-			self.canvas.style.display = 'block';
-			self.canvas.setAttribute('width', attrs.width);
-			self.canvas.setAttribute('height', attrs.height);
-			self.testArea.style.minHeight = attrs.height + 'px';
-			return attrs;
-		};
+        var self = this;
 
-		var canvasStyles = function(attrs) {
+        /*
+            rednerSVG() returns a promise,
+            therefore, we are going to continue
+            the promise with then()
+        */
+        var renderSVG = self.renderSVG();
 
-			var css = {
-				'h3': {
-					'font-family': 'Calibre-Bold, Sans-serif',
-					'font-size': '120px',
-					'font-weight': 'normal',
-					'line-height': '0.8',
-					'text-transform': 'uppercase',
-					'color': '#05CC47',
-					'position': 'relative',
-					'top': '25px'
-				},
-				'h3 span': {
-					'color': 'transparent',
-					'position': 'relative'
-				},
-				'h3 span svg': {
-					'top': '0',
-					'left': '0',
-					'transform': 'translate(0, -24%)',
-					'position': 'absolute',
-					'width': '100%',
-					'height': '140px !important',
-					'fill': '#05CC47 !important'
-				}
-			};
+        /* Copy the the SVG alphabet paths as a 'String' */
+        var getPaths = function(svgDocId) {
+            return document
+                .querySelector(svgDocId)
+                .innerHTML
 
-			var newCSS = Object.keys(css).map(function(selector) {
-				return Object.keys(css[selector]).reduce(function(all, item, i) {
-					all += selector + ' { ' + item + ': ' + css[selector][item] + '; } '
-					return all;
-				}, '');
-			}).join();
+                /* Delete white-space */
+                .replace(/[^\S]{2,}/gm, ' ');
+        };
 
-			attrs.styles = '<style> <![CDATA[' + newCSS + ']]> </style>';
+        /* Get dimesions of the DOM SVG to copy it-over to SVG CSS for the Canvas */
+        var canvasAttr = function(paths) {
+            var spans = self.target.children;
+            var get = function(element) {
+                return [].slice.call(element);
+            };
+            /*
+                Get the SVG children from the spans,
+                and reduce the two arrays into one
+            */
+            var svgs = get(spans)
+                .map(function(span) {
+                    return get(span.children)
+                .reduce(function(a, b) {
+                    return a.concat(b);
+                });
+            });
+            /*
+                Get the SVG height from the HTML DOM,
+                on only needs one of the two, since they
+                should be the same
+            */
+            var svgHeight = svgs.map(function(svg) {
+                return svg.clientHeight;
+            })[0];
 
-			return attrs;
-		};
+            /* Return the main object that will be passed along through the promise */
+            return {
+                svgHeight: svgHeight,
+                width: self.target.clientWidth,
+                height: self.target.clientHeight,
+                paths: paths
+            };
+        };
 
-		/* SVG MARKUP CSS */
-		var canvasMarkup = function(attrs) {
-			var data = '';
-			data = '<svg xmlns="http://www.w3.org/2000/svg" width="' + attrs.width + '" height="' + attrs.height + '">';
-			data += attrs.styles;
-			data += '<foreignObject width="' + attrs.width + '" height="' + attrs.height + '">';
-			data += '<div xmlns="http://www.w3.org/1999/xhtml">';
-			data += self.target.outerHTML;
-			data += '</div></foreignObject>';
-			data += attrs.paths;
-			data += '</svg>';
-			attrs.data = data;
-			return attrs;
-		};
+        var setCanvasSize = function(attrs) {
+            self.canvas.style.display = 'block';
+            self.canvas.setAttribute('width', attrs.width);
+            self.canvas.setAttribute('height', attrs.height);
+            return attrs;
+        };
 
-		var drawCanvas = function(attrs) {
+        var canvasStyles = function(attrs) {
+            var css = {
+                'h3': {
+                    'font-family': 'Calibre-Bold, Sans-serif',
+                    'font-size': self.getFontSize(),
+                    'font-weight': 'normal',
+                    'line-height': '0.8',
+                    'text-transform': 'uppercase',
+                    'color': '#05CC47',
+                    'position': 'relative',
+                    'top': '25px'
+                },
+                'h3 span': {
+                    'color': 'transparent',
+                    'position': 'relative'
+                },
+                'h3 span svg': {
+                    'top': '0',
+                    'left': '0',
+                    'transform': 'translate(0, -24%)',
+                    'position': 'absolute',
+                    'width': '100%',
+                    'height': '140px !important',
+                    'fill': '#05CC47 !important'
+                }
+            };
 
-			var domUrl = window.URL || window.webkitURL || window;
-			var canvasImage = new Image();
+            var newCSS = Object.keys(css).map(function(selector) {
+                return Object.keys(css[selector]).reduce(function(all, item) {
+                    all += selector + ' { ' + item + ': ' + css[selector][item] + '; } ';
+                    return all;
+                }, '');
+            }).join();
 
-			var SVG = new Blob([attrs.data], {
-				type: 'image/svg+xml;charset=utf-8'
-			});
+            attrs.styles = '<style>' + newCSS + '</style>';
 
-			var url = domUrl.createObjectURL(SVG);
+            return attrs;
+        };
+        /*
+            Create the SVG with foreignObject tags
+            that are required to render in a canvas element
+        */
+        var svgForCanvas = function(attrs) {
+            var data = '';
+            data = '<svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="' + attrs.width + '" height="' + attrs.height + '">';
+            data += attrs.styles;
+            data += '<foreignObject width="' + attrs.width + '" height="' + attrs.height + '">';
+            data += '<div xmlns="http://www.w3.org/1999/xhtml">';
+            data += self.target.outerHTML;
+            data += '</div></foreignObject>';
+            data += attrs.paths;
+            data += '</svg>';
+            attrs.data = data;
+            return attrs;
+        };
 
-			canvasImage.onload = function() {
-				self.context.drawImage(canvasImage, 0, 0);
-				this.setAttribute('crossOrigin', 'anonymous');
-				domUrl.revokeObjectURL(url);
-			};
+        var drawCanvas = function(attrs) {
 
-			canvasImage.src = url;
+            var windowURL = window.URL || window.webkitURL || window;
+            var canvasImage = document.createElement('img');
 
-			self.blob = SVG;
-		};
+            var blob = new Blob([attrs.data], {
+                type: 'image/svg+xml;charset=utf-8'
+            });
 
-		var downloadPNG = function() {
+            var blobURL = windowURL.createObjectURL(blob);
 
-			var tempCanvas = document.createElement('canvas');
-			var tempContext = tempCanvas.getContext('2d');
+            canvasImage.onload = function() {
+                self.context.drawImage(canvasImage, 0, 0);
+                windowURL.revokeObjectURL(blobURL);
+            };
 
-			var blobToDataURL = function(blob, callback) {
-				var fr = new FileReader();
-				fr.onload = function(e) {
-					callback(e.target.result);
-				};
-				fr.readAsDataURL(blob);
-			};
+            canvasImage.src = blobURL;
+            attrs.blob = blob;
+            attrs.blobURL = blobURL;
 
-			blobToDataURL(self.blob, function(dataURL) {
-    			self.downloadButton.href = dataURL;
-    			self.downloadButton.download = this.input.value.toLowerCase().replace(/[ ]/g,'-') + '.svg';
-			});
+            return attrs;
+        };
 
-			function drawInlineSVG(ctx, rawSVG, callback) {
+        var downloadPNG = function (attrs) {
 
-				var svg = new Blob([rawSVG], {
-						type: "image/svg+xml;charset=utf-8"
-					}),
-					domURL = self.URL || self.webkitURL || self,
-					url = domURL.createObjectURL(svg),
-					img = new Image;
+            var canvasPNG = document.createElement('canvas');
+            var context = canvasPNG.getContext('2d');
 
-				img.onload = function() {
-					ctx.drawImage(this, 0, 0);
-					domURL.revokeObjectURL(url);
-					callback(this);
-				};
+            canvasPNG.width = attrs.width;
+            canvasPNG.height = attrs.height;
 
-				img.src = url;
-			}
+            var png = document.createElement('img');
 
-			// usage:
-			drawInlineSVG(tempContext, svgText, function() {
-				console.log(canvas.toDataURL()); // -> PNG data-uri
-			});
+            var imgSRC = 'data:image/svg+xml;base64,' + btoa( window.unescape(encodeURIComponent(attrs.data) ) );
 
-		};
+                png.setAttribute('src', imgSRC);
 
-		renderSVG
-			.then(getPaths)
-			.then(canvasAttr)
-			.then(setCanvasSize)
-			.then(canvasStyles)
-			.then(canvasMarkup)
-			.then(drawCanvas)
-			.then(downloadPNG);
+            png.onload = function() {
+                context.drawImage(png, 0, 0);
 
-		/* Disable the crop button */
-		this.disable(this.enterButton, true);
+                /* Get png url form the canvas element */
+                var pngFile = canvasPNG.toDataURL('image/png');
 
-	},
-	disable: function(element, bool) {
-		element.disabled = bool;
-		if (bool) {
-			element.style.backgroundColor = '#181A1B';
-			element.style.borderColor = '#242626';
-			element.style.color = '#4F5254';
-			element.style.cursor = 'not-allowed';
-		} else {
-			element.style.backgroundColor = '#05CC47';
-			element.style.borderColor = '#05CC47';
-			element.style.color = 'black';
-			element.style.cursor = 'pointer';
-		}
-	}
+                /* Create the Download Link */
+                var a = document.createElement('a');
+
+                /* Use the text value for the file name */
+                a.download = 'typeCrop-' + self.input.value.toLowerCase().replace(/[ ]/g, '-') + '.png';
+                a.href = pngFile;
+                a.click();
+            };
+        };
+
+        renderSVG
+            .then(getPaths.bind(this, '#typeCropSVG'))
+            .then(canvasAttr)
+            .then(setCanvasSize)
+            .then(canvasStyles)
+            .then(svgForCanvas)
+            .then(drawCanvas)
+            .then(downloadPNG)
+            .then(this.disable.bind(this, true));
+    }
 };
 
-/*
-	Initialize
-	-------------------------------------------------------------
-*/
-
+/* Initialize */
 document.addEventListener('DOMContentLoaded', function() {
-	/* Test instance */
-	return new TypeTest()
-		.createAlphabetClass('.da-title')
-		.to('#alphabet');
+
+    /* Test instance */
+    return new TypeTest()
+        .createAlphabetClass('.da-title')
+        .to('#alphabet');
 });
 
 window.addEventListener('load', function() {
-
-	document.body.classList.add('loaded');
-
+    document.body.classList.add('loaded');
 });

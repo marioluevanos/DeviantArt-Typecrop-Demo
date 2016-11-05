@@ -14,83 +14,79 @@
 	<svg viewBox="0 0 592 204" class="logo-type">
 		<use xlink:href="#logo-type"></use>
 	</svg>
-	<section class="bg-1">
-		<div class="wrap clear v-center">
-			<div class="col-9 before-2">
-				<h1 class='da-title'>DeviantArt Typography with SVG Replacement</h1>
-			</div>
-		</div>
-	</section>
-	<section>
+	<div id='test'>
 		<div class="wrap clear">
-			<div class="col-8 before-2">
-				<h3 class='da-title'>Branded Typography</h3>
-				<!-- <div class="image"><img src="src/img/example.svg" /></div> -->
-			</div>
-			<div class="col-4 before-2">
-				<p>Typography is the vessel that carries our voice. It visually sets the tone before it is even heard. The primary typeface is the Calibre family, a clean sans serif font for communicating brand messaging with unwavering confidence.</p>
-				<p>The web is 95% typography, or so they say. With that in mind, the Calibre font-face should be used when possible. Even with most browsers’ near perfect support of font-face, as good practice, a typical sans serif web-safe font stack should be used.</p>
-			</div>
-			<div class="col-4">
-				<p>We have a unique and ownable headline typography that highlights our Audacious and Inspired characters. The first and last letter of the headline are customized at our 62 degree angle, helping each communication tell our story. Below you see how the full alphabet has been crafted and examples of hero messaging and user profiles.</p>
-			</div>
-		</div>
-	</section>
-	<hr>
-	<section id='test'>
-			<div class="wrap clear">
-			<div class="col-8 before-2">
-				<header>
-					<h4>SVG Replacement Demo</h4>
-				</header>
-				<div class="inputs clear">
-					<input type='text' placeholder='Test Your Might!' id='input' class='input-val' />
+			<div class="col-10 before-1">
+				<div class="test-inputs clear">
+					<input type='text' placeholder='Test Your Might!' value='Ass' id='input' class='input-val' />
 					<input class='button' type='button' value='Enter' id='enter' />
 				</div>
-				<!-- <div class="options clear">
-					<input id='size-72' type='radio' value='72px' name='font-size' />
-					<label for='size-72'>72px</label>
-					<input id='size-72' type='radio' value='72px' name='font-size' />
-					<label for='size-72'>72px</label>
-				</div> -->
+				<div class="test-options clear">
+
+					<label for="font-size">Font-Size <span id="font-size-val"></span></label>
+					<input type="range" value='120' max="640" min="32" step="1" id="font-size">
+
+					<label for="font-width">Width <span id="font-width-val"><span id="font-width-val"></span></label>
+					<input type="range" value='100' max="100" min="0" step="1" id="font-width">
+
+				</div>
 				<div class='test-area'>
-					<h3 class='test-target input-val'></h3>
-					<canvas id='canvas'></canvas>
-					<a id='download'>
+					<div class="test-buffer">
+						<h3 class='test-target input-val'>Ass</h3>
+						<canvas id='canvas'></canvas>
+					</div>
+					<button id='download'>
 						<span>
 							<svg viewBox='0 0 23.4 29.8' class='icon-download'>
 								<use xlink:href='#icon-download'></use>
-							</svg>
-							Download
+							</svg>Download
 						</span>
 						<svg viewBox='0 0 265 359' class='ui-shape'>
 							<use xlink:href='#ui-shape'></use>
 						</svg>
-					</a>
+					</button>
 				</div>
 
 			</div>
 		</div>
+	</div>
+	<section class='bg-1'>
+		<div class="wrap clear v-center">
+			<div class="col-8">
+				<h2 class='da-title'>Boldy Facing The Future</h2>
+			</div>
+		</div>
 	</section>
-	<section id="alphabet"></section>
+	<hr>
+	<section class='about'>
+		<div class='col'>
+			<div class="txt">
+				<h3 class='da-title'>Branded Typography</h3>
+				<p>Typography is the vessel that carries our voice. It visually sets the tone before it is even heard. The primary typeface is the Calibre family, a clean sans serif font for communicating brand messaging with unwavering confidence.</p>
+				<p>The web is 95% typography, or so they say. With that in mind, the Calibre font-face should be used when possible. Even with most browsers’ near perfect support of font-face, as good practice, a typical sans serif web-safe font stack should be used.</p>
+				<p>We have a unique and ownable headline typography that highlights our Audacious and Inspired characters. The first and last letter of the headline are customized at our 62 degree angle, helping each communication tell our story. Below you see how the full alphabet has been crafted and examples of hero messaging and user profiles.</p>
+			</div>
+		</div>
+		<div id="alphabet" class='col'></div>
+	</section>
 	<section class="bg-2">
 		<div class="wrap clear v-center">
 			<div class="col-11 before-1">
-				<h1 class='da-title'>Bleed and Breed Art</h1>
+				<h2 class='da-title'>Bleed and Breed Art</h2>
 			</div>
 		</div>
 	</section>
 	<section class="bg-3">
 		<div class="wrap clear v-center">
 			<div class="col-8">
-				<h1 class='da-title'>Nurture Your Creative Nature</h1>
+				<h2 class='da-title'>Nurture Your Creative Nature</h2>
 			</div>
 		</div>
 	</section>
 	<section class="bg-4">
 		<div class="wrap clear v-center">
 			<div class="col-10">
-				<h1 class='da-title'>WE TURN THE ART WORLD UPSIDE DOWN AND BACKWARDS</h1>
+				<h2 class='da-title'>We Turn The Art World Upside Down And Backwards</h2>
 			</div>
 		</div>
 	</section>

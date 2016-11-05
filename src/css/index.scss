@@ -97,16 +97,11 @@ h1, h2, h3, h4 {
 
 h2 { font-size: 10vmin;}
 
-section h3.da-title {
-	font-size: 6vmin;
-	margin: 0 0 30px 0;
-	border-bottom: 1px solid $color-dark-gray;
-	padding-bottom: 30px;
-}
-
 section p {
 	margin: 0 0 15px;
 	color: white;
+	line-height: 1.3;
+	font-size: 1vw;
 }
 
 hr {
@@ -131,7 +126,7 @@ hr {
 	fill: $color-primary-green;
 	height: 40px;
 	width: auto;
-	z-index: 1;
+	z-index: 1337;
 }
 
 .logo-type {
@@ -141,91 +136,38 @@ hr {
 	fill: white;
 	height: 40px;
 	width: auto;
-	z-index: 1;
+	z-index: 1337;
 }
 
-#svgs {
-	position: absolute;
-	width: 0;
-	height: 0;
-}
-
-section {
-	padding: 120px 0;
+section.bg-1 {
 	position: relative;
-	color: white;
-	.da-title {
-		color: $color-primary-green;
-	}
-}
-
-.v-center {
-	position: relative;
-	top: 50%;
-	transform: translate(0, -50%);
-}
-
-[class*='bg'] {
 	height: 100vh;
-	padding: 0;
-}
-
-.bg-1 {
-	background: url($fp + 'img-1.jpg') 50% 30%/cover no-repeat fixed;
-	h1 {
-		color: white;
-		font: normal 7vw/0.75 'Calibre-Bold';
-	}
-}
-
-.bg-2 {
-	background: url($fp + 'img-2.jpg') 50% 30%/cover no-repeat fixed;
-	h1 {
-		color: white;
-		font: normal 12vw/0.75 'Calibre-Bold';
-	}
-}
-
-.bg-3 {
-	background: url($fp + 'img-3.jpg') 50% 30%/cover no-repeat fixed;
-	h1 {
-		color: black;
-		font: normal 8vw/0.75 'Calibre-Bold';
-	}
-}
-
-.bg-4 {
-	background: url($fp + 'img-4.jpg') 50% 100%/cover no-repeat fixed;
-	h1 {
-		color: $color-primary-green;
-		font: normal 8vw/0.75 'Calibre-Bold';
-	}
-}
-
-#alphabet {
-	padding: 0;
-	background: rgba(black, 0.3);
-	display: flex;
-	flex-wrap: wrap;
-	div {
-		text-align: center;
-		width: 19.8%;
-		margin: 0.1%;
-		background: rgba(black, 0.15);
-		box-sizing: border-box;
-		.da-title {
-			color: $color-light-gray;
-			margin: 30% 0;
+	> header {
+		position: absolute;
+		z-index: 2;
+		top: 30px;
+		left: 70px;
+		right: 70px;
+		border-bottom: 1px solid $color-dark-gray;
+		padding-bottom: 30px;
+		h1 {
+			width: 380px;
 		}
 	}
 }
 
 #test {
-	background: black;
-	position: relative;
 	padding: 120px 0;
+	width: 100%; height: 100%;
+	bottom: 0; left: 0; right: 0;
+	position: absolute;
 	box-sizing: border-box;
-	header {
+	z-index: 1;
+	background: $color-primary-black;
+	.wrap {
+		width: 100%;
+	}
+	> header {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
@@ -235,8 +177,8 @@ section {
 		}
 	}
 	$button-width: 190px;
-	$outer-padding: 60px;
-	.inputs {
+	$outer-padding: 0;
+	.test-inputs {
 		position: relative;
 		input {
 			height: 90px;
@@ -252,7 +194,7 @@ section {
 			&[type='text'] {
 				width: calc(100% - 190px - 5px);
 			}
-			&.button {
+			&#enter {
 				color: black;
 				background: $color-primary-green;
 				padding: 15px 30px;
@@ -264,72 +206,118 @@ section {
 				text-transform: uppercase;
 				cursor: pointer;
 				width: $button-width;
-				&:active,
-				&:focus {
+				&:active {
 					background: black;
 					color: $color-primary-green;
+				}
+				&.disabled {
+					background-color: $color-primary-black;
+					border-color: $color-dark-gray;
+					color: $color-dark-gray;
+					cursor: not-allowed;
 				}
 			}
 		}
 	}
-
+	.test-options {
+		position: relative;
+		padding: 15px 0;
+		color: white;
+		z-index: 4;
+		input[type='range'] {
+			margin: 0;
+			border: 1px solid white;
+			display: inline-block;
+		}
+		label {
+			font: normal 1em/1 'Calibre-Semibold', sans-serif;
+			color: $color-light-gray;
+			text-transform: uppercase;
+			&:not(:first-of-type) {
+				margin-left: 1em;
+			}
+			span {
+				display: inline-block;
+				margin-left: 0.1em;
+				font: normal 1em/1 'Calibre-Regular', sans-serif;
+				color: $color-white;
+			}
+		}
+	}
 	.test-area {
 		position: relative;
-		margin: 120px 0;
-		min-height: 96px;
+		min-height: 160px;
+		background: white;
 		z-index: 1;
-		transition: all 1s ease-in-out;
+		img {
+			position: relative;
+			z-index: 2;
+		}
+		.test-buffer {
+			position: relative;
+			padding: 30px;
+		}
 		&:before {
 			content: '';
 			position: absolute;
-			top: -$outer-padding + 10; right: -$outer-padding + 10; bottom: -$outer-padding + 10; left: -$outer-padding + 10;
+			top: 10px ; right: 10px ; bottom: 10px ; left: 10px ;
 			background: url($fp + 'bg-pattern-canvas.png') fixed;
 			border-radius: 2px;
 			opacity: 0.15;
 			z-index: 1;
 		}
-		&:after {
-			content: '';
-			position: absolute;
-			top: -$outer-padding; right: -$outer-padding; bottom: -$outer-padding; left: -$outer-padding;
-			background: white;
-			border: 1px solid $color-secondary-black;
-			border-radius: 2px;
-			z-index: -1;
-		}
 		.test-target {
 			font-size: 120px;
 			line-height: 0.8;
+			padding: $outer-padding;
 			position: relative;
 			color: black;
+			&:before {
+				content: '';
+				position: absolute;
+				top: 0.13em;
+				left: 0;
+				right: 0;
+				height: 1px;
+				background: red;
+			}
+			&:after {
+				content: '';
+				position: absolute;
+				bottom: 0.055em;
+				left: 0;
+				right: 0;
+				height: 1px;
+				background: red;
+			}
 		}
 		canvas {
-			position: absolute;
-			top: -1px; left: 0;
+			position: relative;
+			top: 0; left: 0; right: 0; bottom: 0;
 			display: none;
 			z-index: 1;
 		}
 	}
 	#download {
 		outline: none;
-		width: $button-width;
+		width: $button-width - $outer-padding;
 		height: 60px;
 		display: inline-block;
-		background: black;
+		background: $color-primary-black;
 		border: none;
 		cursor: pointer;
 		padding: 0;
 		position: absolute;
-		bottom: -$outer-padding;
-		right: -$outer-padding;
+		bottom: 0;
+		right: 0;
 		z-index: 4;
 		span {
-			font-size: 1.25em;
+			font-size: 1.5em;
 			position: absolute;
 			top: 50%;
 			left: 10%;
 			padding-left: 15%;
-			transform: translate(0, -40%);
+			transform: translate(0, -45%);
 			color: white;
 			transition: color 0.15s linear;
 		}
@@ -348,7 +336,7 @@ section {
 			bottom: 0; left: 0;
 			width: auto;
 			height: 100%;
-			fill: black;
+			fill: $color-primary-black;
 			transform: translate(-100%, 0);
 		}
 		&:hover span {
@@ -360,11 +348,114 @@ section {
 	}
 }
 
-// section:not(#test):not(#alphabet)
-// canvas
-// {
-// 	display: none;
-// }
+#svgs {
+	position: absolute;
+	width: 0;
+	height: 0;
+}
+
+section {
+	position: relative;
+	color: white;
+	.da-title {
+		color: $color-primary-green;
+		line-height: 0.75;
+	}
+}
+.v-center {
+	position: relative;
+	top: 50%;
+	transform: translate(0, -50%);
+}
+
+[class*='bg'] {
+	height: 100vh;
+	padding: 0;
+}
+
+.bg-1 {
+	background: url($fp + 'img-1.jpg') 50% 30%/cover no-repeat fixed;
+}
+
+.bg-2 {
+	background: url($fp + 'img-2.jpg') 50% 30%/cover no-repeat fixed;
+	.da-title {
+		color: white;
+		font: normal 12vw/0.75 'Calibre-Bold';
+	}
+}
+
+.bg-3 {
+	background: url($fp + 'img-3.jpg') 50% 30%/cover no-repeat fixed;
+	.da-title {
+		color: black;
+		font: normal 8vw/0.75 'Calibre-Bold';
+	}
+}
+
+.bg-4 {
+	background: url($fp + 'img-4.jpg') 50% 100%/cover no-repeat fixed;
+	.da-title {
+		color: $color-primary-green;
+		font: normal 7vw/0.75 'Calibre-Bold';
+	}
+}
+
+section.about {
+	padding: 0;
+	background: $color-primary-white;
+	display: flex;
+	flex-direction: row;
+	height: 100%;
+	h3.da-title {
+		font-size: 4vw;
+		margin: 0 0 30px 0;
+		border-bottom: 1px solid rgba($color-light-gray, 0.3);
+		padding-bottom: 30px;
+		color: $color-black;
+	}
+	p {
+		color: $color-light-gray;
+		&:last-of-type {
+			margin: 0;
+		}
+	}
+	.col {
+		width: 50%;
+		display: flex;
+		align-items: center;
+		&:nth-of-type(1) {
+			background: white;
+		}
+	}
+	.txt {
+		max-width: 25vw;
+		margin: auto;
+	}
+}
+
+#alphabet {
+	padding: 0;
+	background: rgba($color-primary-black, 1);
+	display: flex;
+	align-items: stretch;
+	flex-wrap: wrap;
+	width: 50%;
+	div {
+		text-align: center;
+		width: 19.8%;
+		margin: 0.1%;
+		background: rgba($color-secondary-black, 1);
+		box-sizing: border-box;
+		.da-title {
+			font-size: 3vw;
+			color: $color-light-gray;
+			position: relative;
+			top: 50%;
+			transform: translate(0, -50%);
+		}
+	}
+}
 
 @media (max-width: 767px) {
 	.wrap div[class^='col'],
@@ -379,34 +470,5 @@ section {
 		position: fixed;
 		right: 60px;
 		height: 20px;
-	}
-	[class*='bg-'] h1 {
-		font-size: 13vw;
-	}
-	#alphabet div {
-		width: 50%;
-		margin: 0;
-	}
-	#alphabet div h2.da-title {
-		font-size: 23vw;
-	}
-	#test,
-	section {
-		padding: 30px 0;
-	}
-	section h3.da-title {
-		font-size: 13vw;
-	}
-	#test input[type='text'] {
-		width: 100%;
-		display: block;
-	}
-	#test input.button {
-		margin: 5px 0;
-		display: block;
-		width: 100%;
-	}
-	#test .test-area {
-		margin: 60px 0;
 	}
 }
