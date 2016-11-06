@@ -171,6 +171,7 @@ function typeCrop(titles, svgSource) {
             /* Set the text to BOLD typeface and uppercase */
             original.style.fontFamily = 'Calibre-Bold';
             original.style.textTransform = 'uppercase';
+            original.style.fontWeight = 'normal';
             return original;
         });
         /*
