@@ -157,24 +157,20 @@ section.bg-1 {
 }
 
 #test {
-	padding: 120px 0;
-	width: 100%; height: 100%;
+	padding: 120px 0 180px;
+	width: 100%;
 	bottom: 0; left: 0; right: 0;
-	position: absolute;
 	box-sizing: border-box;
 	z-index: 1;
 	background: $color-primary-black;
 	.wrap {
 		width: 100%;
 	}
-	> header {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		h4 {
-			margin-bottom: 20px;
-			color: $color-light-gray;
-		}
+	h4 {
+		font: normal 1em/1 'Calibre-Semibold', sans-serif;
+		text-transform: uppercase;
+		margin-bottom: 20px;
+		color: $color-light-gray;
 	}
 	$button-width: 190px;
 	$outer-padding: 0;
@@ -221,7 +217,7 @@ section.bg-1 {
 	}
 	.test-options {
 		position: relative;
-		padding: 15px 0;
+		padding: 30px 0;
 		color: white;
 		z-index: 4;
 		input[type='range'] {
@@ -247,7 +243,7 @@ section.bg-1 {
 	.test-area {
 		position: relative;
 		min-height: 160px;
-		background: white;
+		background: black;
 		z-index: 1;
 		img {
 			position: relative;
@@ -255,41 +251,22 @@ section.bg-1 {
 		}
 		.test-buffer {
 			position: relative;
-			padding: 30px;
+			overflow: hidden;
+			box-sizing: border-box;
+			padding: 30px 30px 90px;
 		}
 		&:before {
 			content: '';
 			position: absolute;
-			top: 10px ; right: 10px ; bottom: 10px ; left: 10px ;
-			background: url($fp + 'bg-pattern-canvas.png') fixed;
+			top: 0; right: 0; bottom: 0; left: 0;
+			background: white url($fp + 'bg-pattern-canvas.png') fixed;
 			border-radius: 2px;
-			opacity: 0.15;
-			z-index: 1;
+			opacity: 0.05;
+			z-index: -1;
 		}
 		.test-target {
-			font-size: 120px;
+			font-size: inherit;
 			line-height: 0.8;
-			padding: $outer-padding;
-			position: relative;
-			color: black;
-			&:before {
-				content: '';
-				position: absolute;
-				top: 0.13em;
-				left: 0;
-				right: 0;
-				height: 1px;
-				background: red;
-			}
-			&:after {
-				content: '';
-				position: absolute;
-				bottom: 0.055em;
-				left: 0;
-				right: 0;
-				height: 1px;
-				background: red;
-			}
 		}
 		canvas {
 			position: relative;
@@ -375,6 +352,10 @@ section {
 
 .bg-1 {
 	background: url($fp + 'img-1.jpg') 50% 30%/cover no-repeat fixed;
+	.da-title {
+		color: white;
+		font: normal 7vw/0.75 'Calibre-Bold';
+	}
 }
 
 .bg-2 {

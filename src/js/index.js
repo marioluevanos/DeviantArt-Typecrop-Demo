@@ -13,6 +13,9 @@ function TypeTest() {
     this.inputFontWidth = document.querySelector('#font-width');
     this.inputFontWidthVal = document.querySelector('#font-width-val')
 
+    this.inputFontColor = document.querySelector('#font-color');
+    this.inputFontColorVal = document.querySelector('#font-color-val')
+
     /* Render Target */
     this.targetClass = '.test-target';
     this.target = document.querySelector(this.targetClass);
@@ -31,6 +34,8 @@ function TypeTest() {
     /* Font Input Events */
     this.inputFontSize.addEventListener('input', this.resize.bind(this), false);
     this.inputFontWidth.addEventListener('input', this.resize.bind(this), false);
+
+    this.inputFontColor.addEventListener('input', this.resize.bind(this), false);
 
     this.bindInput({ sharedClass: 'input-val', outputHTMLElement: 'h3' });
     this.reizeInit();
@@ -83,34 +88,50 @@ TypeTest.prototype = {
         var init = this.resize();
             init.resizeFont();
             init.resizeWidth();
+            init.selectColor();
     },
     resize: function(event) {
         var self = this;
         var get = self.getFont();
         var target = self.target;
 
+        var selectColor = function() {
+            var color = get.color();
+            var svgs = self.targetSVG();
+
+            /* Color change target */
+            target.style.color = color;
+
+            /* Color change SVG Elements */
+            svgs.forEach(function(svg) {
+                svg.style.fill = color;
+            });
+        };
         var resizeFont = function() {
             var size = get.size();
-            target.style.fontSize = size;
+            target.parentElement.style.fontSize = size;
             self.inputFontSizeVal.innerHTML = size;
         };
         var resizeWidth = function() {
             var width = get.width();
-            target.style.width = width;
+            target.parentElement.style.width = width;
             self.inputFontWidthVal.innerHTML = width;
         };
 
         if (event !== undefined) {
             var     isFontSize      = event.target.id === 'font-size';
             var     isFontWidth     = event.target.id === 'font-width';
+            var     isFontColor     = event.target.id === 'font-color';
             if      (isFontSize)    { resizeFont(); }
             else if (isFontWidth)   { resizeWidth(); }
+            else if (isFontColor)   { selectColor(); }
             else                    { return; }
         }
         else {
             return {
                 resizeFont: resizeFont,
-                resizeWidth: resizeWidth
+                resizeWidth: resizeWidth,
+                selectColor: selectColor
             };
         }
         self.resetInput();
@@ -118,12 +139,16 @@ TypeTest.prototype = {
     getFont: function() {
         var size = this.inputFontSize;
         var width = this.inputFontWidth;
+        var color = this.inputFontColor;
         return {
             size: function() {
                 return parseFloat(size.value) + 'px';
             },
             width: function() {
                 return parseFloat(width.value) + '%';
+            },
+            color: function() {
+                return color.value;
             }
         };
     },
@@ -178,10 +203,26 @@ TypeTest.prototype = {
         this.target.innerHTML = this.input.value;
         return typeCrop(this.targetClass);
     },
+    targetSVG: function() {
+        var get = function(element) {
+            return [].slice.call(element);
+        };
+        /*
+            Get the SVG children from the spans,
+            and reduce the two arrays into one
+        */
+        var spans = this.target.children;
+        return get(spans)
+            .map(function(span) {
+                return get(span.children)
+            .reduce(function(a, b) {
+                return a.concat(b);
+            });
+        });
+    },
     renderCanvas: function() {
 
         var self = this;
-
         /*
             rednerSVG() returns a promise,
             therefore, we are going to continue
@@ -201,26 +242,12 @@ TypeTest.prototype = {
 
         /* Get dimesions of the DOM SVG to copy it-over to SVG CSS for the Canvas */
         var canvasAttr = function(paths) {
-            var spans = self.target.children;
-            var get = function(element) {
-                return [].slice.call(element);
-            };
-            /*
-                Get the SVG children from the spans,
-                and reduce the two arrays into one
-            */
-            var svgs = get(spans)
-                .map(function(span) {
-                    return get(span.children)
-                .reduce(function(a, b) {
-                    return a.concat(b);
-                });
-            });
             /*
                 Get the SVG height from the HTML DOM,
                 on only needs one of the two, since they
                 should be the same
             */
+            var svgs = self.targetSVG();
             var svgHeight = svgs.map(function(svg) {
                 return svg.clientHeight;
             })[0];
@@ -245,13 +272,13 @@ TypeTest.prototype = {
             var css = {
                 'h3': {
                     'font-family': 'Calibre-Bold, Sans-serif',
-                    'font-size': self.getFontSize(),
+                    'font-size': self.getFont().size(),
                     'font-weight': 'normal',
                     'line-height': '0.8',
                     'text-transform': 'uppercase',
-                    'color': '#05CC47',
+                    'color': self.getFont().color(),
                     'position': 'relative',
-                    'top': '25px'
+                    'top': '0.1985em'  // magic number :(
                 },
                 'h3 span': {
                     'color': 'transparent',
@@ -260,11 +287,11 @@ TypeTest.prototype = {
                 'h3 span svg': {
                     'top': '0',
                     'left': '0',
-                    'transform': 'translate(0, -24%)',
+                    'transform': 'translate(0, -24%)', // magic number :(
                     'position': 'absolute',
                     'width': '100%',
-                    'height': '140px !important',
-                    'fill': '#05CC47 !important'
+                    'height': attrs.svgHeight + 'px !important',
+                    'fill': self.getFont().color(),
                 }
             };
 
@@ -344,7 +371,7 @@ TypeTest.prototype = {
                 var a = document.createElement('a');
 
                 /* Use the text value for the file name */
-                a.download = 'typeCrop-' + self.input.value.toLowerCase().replace(/[ ]/g, '-') + '.png';
+                a.download = 'DA-' + self.input.value.toLowerCase().replace(/[ ]/g, '-') + '.png';
                 a.href = pngFile;
                 a.click();
             };

@@ -14,25 +14,37 @@
 	<svg viewBox="0 0 592 204" class="logo-type">
 		<use xlink:href="#logo-type"></use>
 	</svg>
+	<section class='bg-1'>
+		<div class="wrap clear v-center">
+			<div class="col-11">
+				<h2 class='da-title'>DeviantArt Typography With SVG Replacement</h2>
+			</div>
+		</div>
+	</section>
+	<hr>
 	<div id='test'>
 		<div class="wrap clear">
 			<div class="col-10 before-1">
+				<h4>SVG Replacement Demo</h4>
 				<div class="test-inputs clear">
-					<input type='text' placeholder='Test Your Might!' value='Ass' id='input' class='input-val' />
+					<input type='text' placeholder='Type Something' value='Type Something' id='input' class='input-val' tabindex="1" />
 					<input class='button' type='button' value='Enter' id='enter' />
 				</div>
 				<div class="test-options clear">
 
 					<label for="font-size">Font-Size <span id="font-size-val"></span></label>
-					<input type="range" value='120' max="640" min="32" step="1" id="font-size">
+					<input type="range" value='72' max="160" min="32" step="8" id="font-size" tabindex="1">
 
-					<label for="font-width">Width <span id="font-width-val"><span id="font-width-val"></span></label>
-					<input type="range" value='100' max="100" min="0" step="1" id="font-width">
+					<label for="font-width">Width <span id="font-width-val"></span></label>
+					<input type="range" value='100' max="100" min="30" step="1" id="font-width" tabindex="1">
+
+					<label for="font-color">Color <span id="font-color-val"></span></label>
+					<input type="color" value="#05CC47" id='font-color' tabindex="1"/>
 
 				</div>
 				<div class='test-area'>
 					<div class="test-buffer">
-						<h3 class='test-target input-val'>Ass</h3>
+						<h3 class='test-target input-val'></h3>
 						<canvas id='canvas'></canvas>
 					</div>
 					<button id='download'>
@@ -50,14 +62,6 @@
 			</div>
 		</div>
 	</div>
-	<section class='bg-1'>
-		<div class="wrap clear v-center">
-			<div class="col-8">
-				<h2 class='da-title'>Boldy Facing The Future</h2>
-			</div>
-		</div>
-	</section>
-	<hr>
 	<section class='about'>
 		<div class='col'>
 			<div class="txt">
