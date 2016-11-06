@@ -211,14 +211,38 @@ TypeTest.prototype = {
             Get the SVG children from the spans,
             and reduce the two arrays into one
         */
-        var spans = this.target.children;
-        return get(spans)
-            .map(function(span) {
-                return get(span.children)
-            .reduce(function(a, b) {
-                return a.concat(b);
-            });
+        var wordDIV = get(this.target.children);
+
+        /* Get first and last DIVs */
+        var targetDIVs = wordDIV.filter(function(div, index) {
+            return (index === 0 || index === wordDIV.length - 1) && div;
         });
+
+        var spans = targetDIVs.map(function(div, divI) {
+            return get(div.children).filter(function(span, spanI) {
+                var first = divI === 0 && spanI === 0;
+                var last = divI === targetDIVs.length - 1 && spanI === div.children.length - 1;
+                if (first || last) {
+                    return span;
+                }
+            });
+        })
+        .filter(function(span) {
+            return (span.length !== 0) && span;
+        })
+        .reduce(function(a, b) {
+            return a.concat(b);
+        }, []);
+
+        var svgs = spans.map(function(span) {
+            return get(span.children);
+        })
+        .reduce(function(a, b) {
+            return a.concat(b);
+        }, []);
+
+        return svgs;
+
     },
     renderCanvas: function() {
 

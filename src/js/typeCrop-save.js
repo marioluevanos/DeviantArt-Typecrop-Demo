@@ -143,58 +143,29 @@ function typeCrop(titles, svgSource) {
             }, []);
     };
 
-    /* wrapLetters() - Wrap letters with span elements */
-    var wrapLetters = function(svgCatalog) {
+    /* addSVGRoot() - Wrapps the first and last letter with span elements */
+
+    var addSVGRoot = function(svgCatalog) {
 
         var title = words.map(function(word) {
 
-            var letters = word.innerHTML
+            var spanElement = '<span data-char="$1$2">$1$2</span>';
+            var replaceWith = word.innerHTML
                 .toLowerCase()
                 .replace(regEx, normalized)
-                .split(' ')
-                .map(function(word) {
-                    return word.split('');
-                });
+                .replace(regEx, spanElement);
 
-            const eachLetter = letters
-                .map(word => {
-                    return word.reduce((all, letter, i) => {
-                        let span = document.createElement('span');
-                        span.style.display = 'inline-block';
-                        span.setAttribute('data-char', letter);
-                        span.innerHTML = letter;
-                        all.push(span);
-                        return all;
-                    }, []);
-                });
-
-            const eachWord = eachLetter.map((spans, i) => {
-                let div = document.createElement('div');
-                div.style.display = 'inline-block';
-                div.style.whiteSpace = 'nowrap';
-                div.classList.add('word');
-                spans.map(span => div.innerHTML += span.outerHTML);
-                return div;
-            });
             return {
-                eachWord: eachWord,
+                replaceWith: replaceWith,
                 original: word
             };
         })
         .map(function(title) {
-            var htmlString = title.eachWord
-                .map(function(word) {
-                    return word.outerHTML;
-                });
-            [title.original].forEach(function(p, i) {
-                p.innerHTML = '';
-                htmlString.forEach(function(v, i) {
-                    p.innerHTML += v + ' ';
-                })
-            });
+            title.original.innerHTML = title.replaceWith;
             return title;
         })
         .map(function(val) {
+
             var original = val.original;
 
             /* Set the text to BOLD typeface and uppercase */
@@ -208,7 +179,7 @@ function typeCrop(titles, svgSource) {
             SVG that will be appended in it's place
         */
         return {
-            title: title,
+            original: title,
             catalog: svgCatalog
         };
     };
@@ -217,16 +188,11 @@ function typeCrop(titles, svgSource) {
     var replaceWithSVG = function(svg) {
 
         /* Loop the original HTML Elements that will get replaced */
-        svg.title.forEach(function(title) {
+        svg.original.forEach(function(title) {
 
             var spans = [].slice.call(title.querySelectorAll('span'));
-            var spanTargets = spans.filter(function(span, index) {
 
-                /* Get the first and last letters to replace */
-                return (index === 0 || index === spans.length - 1) && span;
-            });
-
-            spanTargets.forEach(function(span) {
+            spans.forEach(function(span) {
 
                 /* Get the color of the text to copy over to the SVG */
                 var parent = span.parentNode;
@@ -245,6 +211,8 @@ function typeCrop(titles, svgSource) {
 
             });
         });
+
+        window.catalog = svg;
     };
 
     /* Make request and get the SVG files */
@@ -254,7 +222,51 @@ function typeCrop(titles, svgSource) {
         .then(getAttributes)
         .then(makeLetterSet)
         .then(createCatalog)
-        .then(wrapLetters)
+        .then(addSVGRoot)
         .then(replaceWithSVG);
 
 }
+function letra(element) {
+
+    let letra = [].slice.call(document.querySelectorAll(element));
+
+    const words = letra
+        .map(val => val.innerHTML)
+        .join(' ')
+        .split(' ');
+
+    console.log(words)
+
+    const letters = words.map(word => word.split(''));
+
+    const eachLetter = letters
+        .map(word => {
+            return word.reduce((all, letter, i) => {
+                let span = document.createElement('span');
+                span.style.display = 'inline-block';
+                span.setAttribute('data-char', letter);
+                span.innerHTML = letter;
+                all.push(span);
+                return all;
+            }, []);
+        });
+
+    const eachWord = eachLetter.map((spans, i) => {
+        let div = document.createElement('div');
+        div.style.display = 'inline-block';
+        div.classList.add('word');
+        spans.map(span => div.innerHTML += span.outerHTML);
+        return div;
+    });
+
+    const appendWords = function() {
+        letra.forEach(function(p, i) {
+            p.innerHTML = '';
+            eachWord.forEach(function(v, i) {
+                p.innerHTML += v.outerHTML + ' ';
+            })
+        });
+    }();
+}
+
+letra('.assmaster')
