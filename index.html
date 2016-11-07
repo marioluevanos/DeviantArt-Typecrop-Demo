@@ -14,11 +14,27 @@
 	<svg viewBox="0 0 592 204" class="logo-type">
 		<use xlink:href="#logo-type"></use>
 	</svg>
-	<section class='bg-1'>
-		<div class="wrap clear v-center">
-			<div class="col-10 before-1">
-				<h2 class='da-title'>DeviantArt Typography</h2>
-				<p>We have a unique and ownable headline typography that highlights our Audacious and Inspired characters. The first and last letter of the headline are customized at our 62 degree angle, helping each communication tell our story. Below you see how the full alphabet has been crafted, a demonstration and examples of usage.</p>
+	<section class='intro'>
+		<div id="slider">
+			<div data-main="data-main" class="mask">
+				<div id="controls">
+					<button class="control prev">
+						<svg viewBox="0 0 22.7 34.4">
+							<use xlink:href="#icon-arrow-stroke"></use>
+						</svg>
+					</button>
+					<button class="control next">
+						<svg viewBox="0 0 22.7 34.4">
+							<use xlink:href="#icon-arrow-stroke"></use>
+						</svg>
+					</button>
+				</div>
+				<div data-captions="data-captions" class="mask">
+					<div id="captions"></div>
+				</div>
+				<div data-gallery="data-gallery" class="mask">
+					<div id="gallery"></div>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -30,14 +46,14 @@
 			<div class="col-12">
 				<h4>SVG Replacement Demo</h4>
 				<div class="test-inputs clear">
-					<input type='text' placeholder='Type Something' value='Type Something' id='input' class='input-val' tabindex="1" />
+					<input type='text' placeholder='Type Something' value='Sixty Two' id='input' class='input-val' tabindex="1" />
 					<input class='button' type='button' value='Enter' id='enter' />
 				</div>
 				<div class="test-options clear">
 
 					<div class="test-option-control">
 						<label for="font-size">Font-Size: <span id="font-size-val"></span></label>
-						<input type="range" value='72' max="460" min="32" step="8" id="font-size" tabindex="1">
+						<input type="range" value='62' max="160" min="32" step="1" id="font-size" tabindex="1">
 					</div>
 
 					<div class="test-option-control">
@@ -70,8 +86,8 @@
 
 			</div>
 		</div>
+		<hr>
 	</div>
-	<hr>
 	<section class='about'>
 		<div class='col'>
 			<div class="txt">
@@ -81,27 +97,6 @@
 			</div>
 		</div>
 		<div id="alphabet" class='col'></div>
-	</section>
-	<section class="bg-2">
-		<div class="wrap clear v-center">
-			<div class="col-11 before-1">
-				<h2 class='da-title'>Bleed and Breed Art</h2>
-			</div>
-		</div>
-	</section>
-	<section class="bg-3">
-		<div class="wrap clear v-center">
-			<div class="col-8">
-				<h2 class='da-title'>Nurture Your Creative Nature</h2>
-			</div>
-		</div>
-	</section>
-	<section class="bg-4">
-		<div class="wrap clear v-center">
-			<div class="col-10">
-				<h2 class='da-title'>We Turn The Art World Upside Down And Backwards</h2>
-			</div>
-		</div>
 	</section>
 	<svg id='svgs' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve">
 		<defs>
@@ -120,6 +115,9 @@
 				c7.4,0,10.3-3.7,10.3-9.2C411.2,140.3,408.4,136.6,401,136.6z M520.3,136.6h-23.6v44.9L484.9,204h-15.7v-67.4h-26v-24.3H533
 				L520.3,136.6z" />
 			</g>
+			<g id='icon-arrow-stroke'>
+				<path d="M0,17.2L17,0l5.7,0v5.8L11.3,17.1l11.4,11.6v5.7H17L0,17.2z M17.6,1.5L2.1,17.2l15.5,15.7h3.6v-3.6l-12-12.2 l12-11.9V1.5H17.6z" />
+			</g>
 			<g id='icon-download'>
 				<polygon points="8.8,20.2 8.8,18.7 1.5,18.7 1.5,6.6 6.6,1.5 21.9,1.5 21.9,13.6 16.8,18.7 13.5,18.7 13.5,20.2 17.4,20.2 23.4,14.3 23.4,0 6,0 0,6 0,20.2"/>
 				<polygon points="11.9,26.8 11.9,8.3 10.4,8.3 10.4,26.8 5.8,22.2 4.7,23.3 11.2,29.8 17.7,23.3 16.6,22.2"/>
@@ -130,9 +128,14 @@
 			<g id='ui-shape-2'>
 				<path d="M118.52,191.186H0l26.373-17.873L118.52,0V191.186z"/>
 			</g>
+			<g id='ui-shape-3'>
+				<path d="M196.6,60l10-6.7L235,0H0v60H196.6z" />
+			</g>
 		</defs>
 	</svg>
 	<script src='src/js/typeCrop.js'></script>
+	<script src='src/js/typeCrop-typeTest.js'></script>
+	<script src='src/js/typeCrop-slider.js'></script>
 	<script src='src/js/index.js'></script>
 </body>
 </html>
