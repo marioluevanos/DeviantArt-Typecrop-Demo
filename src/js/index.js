@@ -190,17 +190,17 @@ TypeTest.prototype = {
         /* Disable the enter button */
         this.enterButton.disabled = bool;
         this.enterButton.classList.toggle('disabled', bool);
-
-        /* Hide the HTML DOM Element to make room for the Canvas */
-        this.target.style.position = bool ? 'absolute' : 'relative';
-        this.target.style.left = bool ? '-9999em' : '0';
     },
     resetInput: function() {
-        this.canvas.style.display = 'none';
         this.disable(false);
     },
     renderSVG: function() {
-        this.target.innerHTML = this.input.value;
+
+        /* Select white-space at the begining and end */
+        var trailingWhiteSpace = /^[^\w]+|[^\w]+$/g;
+
+        /* Remove white-space ends */
+        this.target.innerHTML = this.input.value.replace(trailingWhiteSpace, '');
         return typeCrop(this.targetClass);
     },
     targetSVG: function() {
@@ -286,7 +286,6 @@ TypeTest.prototype = {
         };
 
         var setCanvasSize = function(attrs) {
-            self.canvas.style.display = 'block';
             self.canvas.setAttribute('width', attrs.width);
             self.canvas.setAttribute('height', attrs.height);
             return attrs;
@@ -345,6 +344,7 @@ TypeTest.prototype = {
             data += attrs.paths;
             data += '</svg>';
             attrs.data = data;
+            console.log(data);
             return attrs;
         };
 

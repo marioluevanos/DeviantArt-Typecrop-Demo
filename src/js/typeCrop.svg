@@ -1,9 +1,9 @@
 <svg id='typeCropSVG' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="position: absolute;" width="0" height="0">
     <defs>
-        <g id='A' viewBox='0 1 233 417'>
+        <g id='A' viewBox='0 0 233 417'>
             <path d='M187.1,110.9h-59L2.8,332h57.6l23.8-42.8h80.6l7.9,42.8H230L187.1,110.9z M110.5,241.6l34.9-62.3l11.2,62.3 H110.5z' />
         </g>
-        <g id='a' viewBox='0 1 233 417'>
+        <g id='a' viewBox='0 0 233 417'>
             <path d='M145.9,110.9h-59L2.6,332h57.2l15.5-42.8h80.3l15.8,42.8h6l30.7-57.7L145.9,110.9z M93,241.6l22.7-62.3 l22.7,62.3H93z' />
         </g>
         <g id='B' viewBox='0 0 201 417'>
@@ -163,7 +163,7 @@
         <g id='T' viewBox='0 0 209 417'>
             <polygon points="34.4,110.9 8,160.6 75.8,160.6 75.8,332 133.7,332 133.7,160.6 202.1,160.6 202.1,110.9" />
         </g>
-        <g id='t' viewBox='0 2 209 417'>
+        <g id='t' viewBox='0 1 209 417'>
             <polygon points="7.7,110.9 7.7,160.6 75.8,160.6 75.8,332 84.6,332 133.7,239.7 133.7,160.6 175.8,160.6 202.1,111
             202.1,110.9" />
         </g>

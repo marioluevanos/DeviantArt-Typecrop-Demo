@@ -54,7 +54,6 @@ function typeCrop(titles, svgSource) {
         lastLetter = g2;
         return [firstLetter, lastLetter].join('');
     }
-
     /*
         loadSVG():
         SVG file is loaded and returned as a type 'String.'
@@ -65,7 +64,6 @@ function typeCrop(titles, svgSource) {
     var loadSVG = function(data) {
         return new DOMParser().parseFromString(data, 'image/svg+xml');
     };
-
     /*
         getAttributes():
         @param {Object} svgs - The returned SVG Document Node
@@ -156,9 +154,9 @@ function typeCrop(titles, svgSource) {
                     return word.split('');
                 });
 
-            const eachLetter = letters
-                .map(word => {
-                    return word.reduce((all, letter, i) => {
+            var eachLetter = letters
+                .map(function(word) {
+                    return word.reduce(function(all, letter, i) {
                         let span = document.createElement('span');
                         span.style.display = 'inline-block';
                         span.setAttribute('data-char', letter);
@@ -168,7 +166,7 @@ function typeCrop(titles, svgSource) {
                     }, []);
                 });
 
-            const eachWord = eachLetter.map((spans, i) => {
+            var eachWord = eachLetter.map(function(spans, i) {
                 let div = document.createElement('div');
                 div.style.display = 'inline-block';
                 div.style.whiteSpace = 'nowrap';
@@ -248,7 +246,6 @@ function typeCrop(titles, svgSource) {
     };
 
     /* Make request and get the SVG files */
-
     return httpRequest('GET', svgSource)
         .then(loadSVG)
         .then(getAttributes)
@@ -256,5 +253,4 @@ function typeCrop(titles, svgSource) {
         .then(createCatalog)
         .then(wrapLetters)
         .then(replaceWithSVG);
-
 }
