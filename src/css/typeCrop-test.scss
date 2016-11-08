@@ -18,6 +18,7 @@
 		transform: translate(0, -100%);
 		transform-origin: 100% 0;
 		fill: $color-primary-black;
+		display: none;
 	}
 	h4 {
 		font: normal 1em/1 'Calibre-Semibold', sans-serif;
@@ -107,7 +108,8 @@
 		//- Range Slider
 		$range-handle-color: $color-light-gray !default;
 		$range-handle-color-hover: $color-primary-green !default;
-		$range-handle-size: 20px !default;
+		$range-handle-width: 60px !default;
+		$range-handle-height: 30px !default;
 		$range-track-color: black !default;
 		$range-track-height: 4px !default;
 
@@ -125,36 +127,39 @@
 			  // Range Handle
 			&::-webkit-slider-thumb {
 				appearance: none;
-				width: $range-handle-size;
-				height: $range-handle-size;
-				border-radius: 50%;
+				width: $range-handle-width;
+				height: $range-handle-height;
+				border-radius: 2px;
 				background: $range-handle-color;
+				background: transparent;
 				cursor: ew-resize;
 				transition: background .15s ease-in-out;
-
-				&:hover {
-					background: $range-handle-color-hover;
-				}
+				position: relative;
+				z-index: 1;
+				// &:hover {
+				// 	background: $range-handle-color-hover;
+				// }
 			}
 
 			&:active::-webkit-slider-thumb {
-				background: $range-handle-color-hover;
+				//background: $range-handle-color-hover;
 			}
 
 			&::-moz-range-thumb {
-				width: $range-handle-size;
-				height: $range-handle-size;
+				content: 'ass';
+				width: $range-handle-width;
+				height: $range-handle-height;
 				border: 0;
-				border-radius: 50%;
+				border-radius: 2px;
 				background: $range-handle-color;
-				cursor: pointer;
+				cursor: ew-resize;
 				transition: background .15s ease-in-out;
 				&:hover {
 					background: $range-handle-color-hover;
 				}
 			}
 			&:active::-moz-range-thumb {
-				background: $range-handle-color-hover;
+				//background: $range-handle-color-hover;
 			}
 
 			// Firefox Overrides
@@ -190,18 +195,57 @@
 		label {
 			font: normal 1em/1 'Calibre-Semibold', sans-serif;
 			color: $color-light-gray;
-			text-transform: uppercase;
 			white-space: nowrap;
-			margin-right: 10px;
+			margin: 0 auto;
+			padding: 0;
+			display: block;
+			width: 80%;
+			position: relative;
 			&:not(:first-of-type) {
 				margin-left: 1em;
 			}
-			span {
-				display: inline-block;
-				margin-left: 0.1em;
-				// font: normal 1em/1 'Calibre-Regular', sans-serif;
-				color: $color-white;
+			i.icon {
+				position: absolute;
+				top: 50%;
+				font: bold 1em 'Calibre-Bold', sans-serif;
+				text-transform: uppercase;
+				width: 10%;
+				text-align: center;
+				&:nth-of-type(1) {
+					font-style: 1em;
+					transform: translate(-100%, -50%);
+					left: 0;
+				}
+				&:nth-of-type(2) {
+					font-size: 2em;
+					transform: translate(100%, -50%);
+					right: 0;
+				}
 			}
+			span:not(#font-color-val) {
+				display: inline-block;
+				background: $color-dark-gray;
+				color: white;
+				text-shadow: 0 1px 0px rgba(black, 0.3);
+				padding: 0 0.5em;
+				border-radius: 2px;
+				position: absolute;
+				top: 50%;
+				margin-top: 3px;
+				width: $range-handle-width;
+				height: $range-handle-height;
+				line-height: $range-handle-height;
+				box-sizing: border-box;
+				text-align: center;
+				transform: translate(-50%, -50%);
+				transition: opacity 0.15s linear 0s;
+				transition: background 0.15s linear;
+				z-index: 0;
+				cursor: ew-resize;
+			}
+		}
+		input[type=range]:hover + span:not(#font-color-val) {
+			background: $color-primary-green;
 		}
 	}
 	.test-area {
@@ -311,7 +355,6 @@
 		}
 	}
 }
-
 
 /*
 	------------------------------------------------------------

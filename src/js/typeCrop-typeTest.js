@@ -122,15 +122,47 @@ TypeTest.prototype = {
                 svg.style.fill = color;
             });
         };
+
         var resizeFont = function() {
             var size = get.size();
+            /* Resize the font */
             target.parentElement.style.fontSize = size;
+
+            /* Update the UI counter and move with the slider */
             self.inputFontSizeVal.innerHTML = size;
+            moveLabel(size, self.inputFontSize, self.inputFontSizeVal);
         };
+
+        var moveLabel = function(size, input, label) {
+            var min = input.min;
+            var max = input.max;
+            var value = parseFloat( size.replace(/px/g, '') );
+            var difference = max - min;
+            var valDiff = max - value;
+
+            /* Calc the transalte X position */
+            var xPosition = function() {
+                var x = (valDiff/difference * 100) - 100;
+                return (x - -50) + '%';
+            };
+
+            /* Calc the left position */
+            var leftPosition = function() {
+                var inPercent = ( ( (valDiff/difference) * 100) - 100) / -100;
+                var total = inPercent * 100 + '%';
+                return  'calc(' + total + ' - 30px)';
+            };
+
+            /* Apply positions */
+            label.style.left = leftPosition();
+            label.style.transform = 'translate(' + xPosition() + ', -50%)';
+        };
+
         var resizeWidth = function() {
             var width = get.width();
             target.parentElement.style.width = width;
             self.inputFontWidthVal.innerHTML = width;
+            moveLabel(width, self.inputFontWidth, self.inputFontWidthVal);
         };
 
         if (event !== undefined) {
@@ -429,4 +461,4 @@ TypeTest.prototype = {
             .then(downloadPNG)
             .then(this.disable.bind(this, true));
     }
-};
+}

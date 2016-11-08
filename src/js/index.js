@@ -1,7 +1,5 @@
-/* globals httpRequest: true */
 /* globals TypeTest: true */
 /* globals gallerySlider: true */
-/* globals parseXML: true */
 
 (function() {
 
@@ -34,7 +32,6 @@
 
     /* Initialize */
     document.addEventListener('DOMContentLoaded', function() {
-
         gallerySlider(slides)
             .init({
                 typeCrop: true,
