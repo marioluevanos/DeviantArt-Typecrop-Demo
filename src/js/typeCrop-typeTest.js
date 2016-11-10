@@ -461,7 +461,7 @@ TypeTest.prototype = {
         };
 
         renderSVG
-            .then(getPaths.bind(this, '#typeCropSVG'))
+            .then(getPaths.bind(this, '#typecrop-svg'))
             .then(canvasAttr)
             .then(setCanvasSize)
             .then(canvasStyles)

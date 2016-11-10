@@ -1822,7 +1822,7 @@ section.about {
     -webkit-box-pack: center;
         -ms-flex-pack: center;
             justify-content: center; }
-    #alphabet > div .da-title {
+    #alphabet > div h2 {
       font-size: 3vw;
       color: #7D8080; }
 /*# sourceMappingURL=index.css.map */

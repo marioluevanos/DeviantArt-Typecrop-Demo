@@ -35,7 +35,7 @@
 
         gallerySlider(slides)
             .init({
-                typeCrop: true,
+                typeCrop: false,
                 autoPlay: true
             });
 

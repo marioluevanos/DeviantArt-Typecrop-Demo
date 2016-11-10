@@ -15,6 +15,7 @@ function typeCrop(titles, svgSource) {
     /* Convert from node list to array */
     var words = [].slice.call(allTitles);
 
+
     /* Set up RegEx pattern to match first and last letters */
     var regEx = /\b^([a-zA-Z])|([a-zA-Z])$\b/gm;
 
@@ -22,7 +23,7 @@ function typeCrop(titles, svgSource) {
     svgSource = svgSource === undefined ? 'src/js/typeCrop.svg' : svgSource;
 
     /* Use a Promise for better control of aysnc methods */
-    function httpRequest(method, url) {
+    var httpRequest = function (method, url) {
         return new Promise(function(resolve, reject) {
             var xhr = new XMLHttpRequest();
             xhr.open(method, url);
@@ -38,7 +39,7 @@ function typeCrop(titles, svgSource) {
             };
             xhr.send();
         });
-    }
+    };
 
     /*
         normalized(): All Callback that returns first & letter capitalized, the rest is lower-case
@@ -47,14 +48,30 @@ function typeCrop(titles, svgSource) {
         @param {String} g2 - capturing group 2
         @param {Number} matchIndex - index where match is found
     */
-    function normalized(all, g1, g2, matchIndex) {
+    var normalized = function(all, g1, g2, matchIndex) {
         var firstLetter, lastLetter;
         if (matchIndex === 0) {
             firstLetter = g1.toUpperCase();
         }
         lastLetter = g2;
         return [firstLetter, lastLetter].join('');
-    }
+    };
+
+    var cleanString = function(string) {
+        return string
+        /* Clean out any comments */
+        .replace(/<!--[\s\S]+?-->/gmi, '')
+
+        /* Trailing white-space at the begin and end of string */
+        .replace(/^[^\w]+|[^\w.]*$/gm, '')
+
+        /* Any double spaces into single space */
+        .replace(/\s{2,}/g, ' ')
+
+        .toLowerCase()
+        .replace(regEx, normalized);
+    };
+
     /*
         loadSVG():
         SVG file is loaded and returned as a type 'String.'
@@ -76,18 +93,17 @@ function typeCrop(titles, svgSource) {
 
         /* If typeCropSVG is already in the document */
         if (typeCropSVG === null) {
+
             /* Append SVG */
             document.body.appendChild(importedSVG);
         }
 
         /* Get first && last letter */
         var firstLast = words.map(function(word) {
-            var caseConvert = word.innerHTML
-                .toLowerCase()
-                .replace(regEx, normalized);
-
-            return caseConvert.match(regEx);
+            return cleanString(word.innerHTML).match(regEx);
         });
+
+        console.log(firstLast);
 
         /* Flatten nested arrays utils */
         var flatten = function(arr) {
@@ -106,7 +122,6 @@ function typeCrop(titles, svgSource) {
     };
 
     var makeLetterSet = function(attributes) {
-
         return attributes.map(function(vb) {
             for (var v in vb) {
                 if (vb[v].nodeName === 'viewBox') {
@@ -134,10 +149,11 @@ function typeCrop(titles, svgSource) {
                 return log;
             })
             .reduce(function(svgCatalog, letter) {
+
                 for (var paths in letter) {
+
                     svgCatalog[paths] = letter[paths];
                 }
-
                 return svgCatalog;
             }, []);
     };
@@ -147,12 +163,11 @@ function typeCrop(titles, svgSource) {
 
         var title = words.map(function(word) {
 
-            var letters = word.innerHTML
-                .toLowerCase()
-                .replace(regEx, normalized)
+            var letters = cleanString(word.innerHTML)
                 .split(' ')
                 .map(function(word) {
                     return word
+
                         /* Clean out the encoded ampersands */
                         .replace(/&amp;/g, '&')
                         .split('');
@@ -176,7 +191,7 @@ function typeCrop(titles, svgSource) {
                 div.style.whiteSpace = 'nowrap';
                 div.classList.add('word');
                 spans.map(function(span) {
-                    return div.innerHTML += span.outerHTML
+                    return div.innerHTML += span.outerHTML;
                 });
                 return div;
             });
@@ -186,6 +201,7 @@ function typeCrop(titles, svgSource) {
             };
         })
         .map(function(title) {
+
             var htmlString = title.eachWord
                 .map(function(word) {
                     return word.outerHTML;
@@ -235,12 +251,16 @@ function typeCrop(titles, svgSource) {
                 /* Get the color of the text to copy over to the SVG */
                 var parent = span.parentNode;
                 var color = getComputedStyle(parent, null).getPropertyValue('color');
+                var svgElement = svg.catalog[span.innerHTML];
+                var transparentLetter = span.textContent;
+                var isNotANumber = svgElement !== undefined;
+
 
                 /* Replace the span placeholder with SVG elements */
-                span.innerHTML = svg.catalog[span.innerHTML] + span.textContent;
+                span.innerHTML = isNotANumber ? (svgElement + transparentLetter) : transparentLetter;
 
                 /* Set the placeholder transparent */
-                span.style.cssText = 'position: relative; color: transparent; background: none;';
+                span.style.cssText = isNotANumber ? 'position: relative; color: transparent; background: none;' : '';
 
                 /* Apply the copied color to the SVG element */
                 [].slice.call(span.children).map(function(val) {
@@ -273,7 +293,7 @@ function typeCrop(titles, svgSource) {
             },
             d: {
                 a: { kern: -0.035 },
-                o: { kern: 0.005 },
+                o: { kern:  0.005 },
                 v: { kern: -0.035 },
                 y: { kern: -0.050 }
             },
@@ -282,8 +302,8 @@ function typeCrop(titles, svgSource) {
             },
             g: {
                 a: { kern: -0.025 },
-                g: { kern: 0.005 },
-                o: { kern: 0.005 },
+                g: { kern:  0.005 },
+                o: { kern:  0.005 }
             },
             i: {
                 o: { kern: -0.001 }
@@ -313,7 +333,8 @@ function typeCrop(titles, svgSource) {
             },
             t: {
                 a: { kern: -0.065 },
-                o: { kern: -0.025 }
+                o: { kern: -0.025 },
+                w: { kern:  0.010 }
             },
             o: {
                 t: { kern: -0.015 },
@@ -327,7 +348,7 @@ function typeCrop(titles, svgSource) {
             },
             w: {
                 a: { kern: -0.045 },
-                o: { kern: -0.015 }
+                o: { kern: -0.025 }
             },
             y: {
                 '-': { kern: -0.075 },
@@ -336,6 +357,9 @@ function typeCrop(titles, svgSource) {
                 a: { kern: -0.080 },
                 o: { kern: -0.050 },
                 s: { kern: -0.035 }
+            },
+            '9': {
+                '.': { kern: -0.025 }
             },
             '’': {
                 a: { kern: -0.085 }
@@ -362,13 +386,12 @@ function typeCrop(titles, svgSource) {
 
                 /* Data attr selector */
                 var data = function(s) {
-                    return '[data-char=' + s + ']';
+                    return '[data-char="' + s + '"]';
                 };
 
                 return data(selector.toUpperCase()) + '+' + data(letter) + value + data(selector) + '+' + data(letter) + value;
             });
         };
-
         var kernList = Object.keys(kerningMap)
             .map(function(parent, i) {
                 return rules(kerningMap, i, kerningMap[parent]);
