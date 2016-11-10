@@ -2,14 +2,15 @@ function typeCrop(titles, svgSource) {
     /*
         TODO:
         1. Load the font for Calibre type. Needs to be the webfont.
+        2. First Letter position, could and be a number, but it's not working.
     */
     'use strict';
 
     /* Create a Array-like Node List of all the elements */
     var allTitles = document.querySelectorAll(titles);
 
-    /* A reference to the SVG document containing the alphabet, first invocation === 'null' */
-    var typeCropSVG = document.getElementById('typeCropSVG');
+    /* A reference to the SVG deps, first invocation === 'null' */
+    var typeCropSVG = document.getElementById('typecrop-svg');
 
     /* Convert from node list to array */
     var words = [].slice.call(allTitles);
@@ -18,7 +19,7 @@ function typeCrop(titles, svgSource) {
     var regEx = /\b^([a-zA-Z])|([a-zA-Z])$\b/gm;
 
     /* Set default for SVG filepath */
-    svgSource = (svgSource === undefined) ? 'src/js/typeCrop.svg' : svgSource;
+    svgSource = svgSource === undefined ? 'src/js/typeCrop.svg' : svgSource;
 
     /* Use a Promise for better control of aysnc methods */
     function httpRequest(method, url) {
@@ -100,7 +101,7 @@ function typeCrop(titles, svgSource) {
 
             // Check if el is not a number in order to select from the group ID
             var group = isNaN(el) ? svgs.querySelector('g#' + el) : null;
-            return (group !== null) ? group.attributes : undefined;
+            return group !== null ? group.attributes : undefined;
         });
     };
 
@@ -121,7 +122,7 @@ function typeCrop(titles, svgSource) {
     var createCatalog = function(letterSet) {
 
         return letterSet
-            .map(function(attr, i) {
+            .map(function(attr) {
                 var log = {};
                 if (attr !== undefined) {
                     var styles = 'position: absolute; top: 0; left: 0; bottom: 0; width: 100%; height: 100%';
@@ -151,12 +152,15 @@ function typeCrop(titles, svgSource) {
                 .replace(regEx, normalized)
                 .split(' ')
                 .map(function(word) {
-                    return word.split('');
+                    return word
+                        /* Clean out the encoded ampersands */
+                        .replace(/&amp;/g, '&')
+                        .split('');
                 });
 
             var eachLetter = letters
                 .map(function(word) {
-                    return word.reduce(function(all, letter, i) {
+                    return word.reduce(function(all, letter) {
                         let span = document.createElement('span');
                         span.style.display = 'inline-block';
                         span.setAttribute('data-char', letter);
@@ -166,12 +170,14 @@ function typeCrop(titles, svgSource) {
                     }, []);
                 });
 
-            var eachWord = eachLetter.map(function(spans, i) {
+            var eachWord = eachLetter.map(function(spans) {
                 let div = document.createElement('div');
                 div.style.display = 'inline-block';
                 div.style.whiteSpace = 'nowrap';
                 div.classList.add('word');
-                spans.map(span => div.innerHTML += span.outerHTML);
+                spans.map(function(span) {
+                    return div.innerHTML += span.outerHTML
+                });
                 return div;
             });
             return {
@@ -184,9 +190,9 @@ function typeCrop(titles, svgSource) {
                 .map(function(word) {
                     return word.outerHTML;
                 });
-            [title.original].forEach(function(p, i) {
+            [title.original].forEach(function(p) {
                 p.innerHTML = '';
-                htmlString.forEach(function(v, i) {
+                htmlString.forEach(function(v) {
                     p.innerHTML += v + ' ';
                 })
             });
@@ -244,6 +250,148 @@ function typeCrop(titles, svgSource) {
             });
         });
     };
+
+    /* Kerning between the letters */
+    var kern = function() {
+        var kerningMap = {
+            a: {
+                c: { kern: -0.035 },
+                g: { kern: -0.035 },
+                s: { kern: -0.010 },
+                t: { kern: -0.065 },
+                y: { kern: -0.080 },
+                u: { kern: -0.025 },
+                v: { kern: -0.075 },
+                w: { kern: -0.045 }
+            },
+            b: {
+                a: { kern: -0.015 }
+            },
+            c: {
+                a: { kern: -0.025 },
+                y: { kern: -0.035 }
+            },
+            d: {
+                a: { kern: -0.035 },
+                o: { kern: 0.005 },
+                v: { kern: -0.035 },
+                y: { kern: -0.050 }
+            },
+            f: {
+                a: { kern: -0.045 }
+            },
+            g: {
+                a: { kern: -0.025 },
+                g: { kern: 0.005 },
+                o: { kern: 0.005 },
+            },
+            i: {
+                o: { kern: -0.001 }
+            },
+            j: {
+                a: { kern: -0.020 }
+            },
+            k: {
+                o: { kern: -0.035 },
+                s: { kern: -0.035 }
+            },
+            l: {
+                y: { kern: -0.085 }
+            },
+            p: {
+                a: { kern: -0.060 },
+                t: { kern: -0.010 }
+            },
+            r: {
+                t: { kern: -0.005 },
+                v: { kern: -0.015 },
+                y: { kern: -0.025 }
+            },
+            s: {
+                a: { kern: -0.015 },
+                t: { kern: -0.010 }
+            },
+            t: {
+                a: { kern: -0.065 },
+                o: { kern: -0.025 }
+            },
+            o: {
+                t: { kern: -0.015 },
+                v: { kern: -0.035 },
+                w: { kern: -0.020 },
+                y: { kern: -0.050 }
+            },
+            v: {
+                a: { kern: -0.075 },
+                o: { kern: -0.035 }
+            },
+            w: {
+                a: { kern: -0.045 },
+                o: { kern: -0.015 }
+            },
+            y: {
+                '-': { kern: -0.075 },
+                '—': { kern: -0.075 },
+                '–': { kern: -0.075 },
+                a: { kern: -0.080 },
+                o: { kern: -0.050 },
+                s: { kern: -0.035 }
+            },
+            '’': {
+                a: { kern: -0.085 }
+            },
+            '-': {
+                t: { kern: -0.075 }
+            },
+            '–': {
+                t: { kern: -0.075 }
+            },
+            '—': {
+                t: { kern: -0.075 }
+            }
+        };
+
+        var rules = function(KM, i, parent) {
+
+            return Object.keys(parent).map(function(letter) {
+
+                var selector = Object.keys(KM)[i];
+
+                /* Kerning with margins */
+                var value = '{ margin-left: ' + parent[letter].kern + 'em }';
+
+                /* Data attr selector */
+                var data = function(s) {
+                    return '[data-char=' + s + ']';
+                };
+
+                return data(selector.toUpperCase()) + '+' + data(letter) + value + data(selector) + '+' + data(letter) + value;
+            });
+        };
+
+        var kernList = Object.keys(kerningMap)
+            .map(function(parent, i) {
+                return rules(kerningMap, i, kerningMap[parent]);
+            })
+            .reduce(function(a, b) {
+                return a.concat(b);
+            });
+
+        var createStyleSheet = function(styles) {
+            var style = document.createElement('style');
+            style.setAttribute('id', 'typecrop-kern');
+            style.innerHTML += styles.join().replace(/\,/g, '');
+            return style;
+        };
+
+        var styleElement = createStyleSheet(kernList);
+
+        document.head.appendChild(styleElement);
+    };
+
+    if (!document.getElementById('typecrop-kern')) {
+        kern();
+    }
 
     /* Make request and get the SVG files */
     return httpRequest('GET', svgSource)

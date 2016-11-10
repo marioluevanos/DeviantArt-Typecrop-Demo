@@ -40,6 +40,9 @@ function TypeTest() {
 
     this.inputFontColor.addEventListener('input', this.resize.bind(this), false);
 
+    this.inputFontWidth.addEventListener('mousedown', this.toggleSizeMarker.bind(this), false);
+    this.inputFontWidth.addEventListener('mouseup', this.toggleSizeMarker.bind(this), false);
+
     this.bindInput({ sharedClass: 'input-val', outputHTMLElement: 'h3' });
     this.reizeInit();
 
@@ -97,6 +100,9 @@ TypeTest.prototype = {
     },
     ifWebKit: function() {
         return /Chrome/g.test(window.navigator.userAgent);
+    },
+    toggleSizeMarker: function() {
+        this.testArea.children[0].classList.toggle('active');
     },
     reizeInit: function() {
             this.renderSVG();
@@ -384,17 +390,20 @@ TypeTest.prototype = {
             that are required to render in a canvas element
         */
         var svgForCanvas = function(attrs) {
+
             var data = '';
-            data = '<svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="' + attrs.width + '" height="' + attrs.height + '">';
-            data += attrs.styles;
-            data += '<foreignObject width="' + attrs.width + '" height="' + attrs.height + '">';
-            data += '<div xmlns="http://www.w3.org/1999/xhtml">';
-            data += self.target.outerHTML;
-            data += '</div></foreignObject>';
-            data += attrs.paths;
-            data += '</svg>';
+                data = '<svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="' + attrs.width + '" height="' + attrs.height + '">';
+                data += attrs.styles;
+                data += '<foreignObject width="' + attrs.width + '" height="' + attrs.height + '">';
+                data += '<div xmlns="http://www.w3.org/1999/xhtml">';
+                data += self.target.outerHTML;
+                data += '</div></foreignObject>';
+                data += attrs.paths;
+                data += '</svg>';
+
+            /* Add 'data' prop-SVG data to be passed */
             attrs.data = data;
-            console.log(data);
+
             return attrs;
         };
 

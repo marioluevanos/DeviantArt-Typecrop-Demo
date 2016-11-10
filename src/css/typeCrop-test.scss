@@ -105,11 +105,15 @@
 				}
 			}
 		}
+
+		.test-option-control:nth-of-type(2) {
+			justify-content: flex-end;
+		}
 		//- Range Slider
 		$range-handle-color: $color-light-gray !default;
 		$range-handle-color-hover: $color-primary-green !default;
 		$range-handle-width: 60px !default;
-		$range-handle-height: 30px !default;
+		$range-handle-height: 20px !default;
 		$range-track-color: black !default;
 		$range-track-height: 4px !default;
 
@@ -119,34 +123,36 @@
 			height: $range-track-height;
 			border-radius: 5px;
 			background: $range-track-color;
-			-webkit-appearance: none;
+			box-shadow: 0 1px 1px rgba(white, 0.1);
+			appearance: none;
 			outline: none;
 			padding: 0;
 			margin: 0;
+			cursor: ew-resize;
+			position: relative;
+			top: 50%;
+			transform: translate(0,-50%);
+			z-index: 1;
 
-			  // Range Handle
+			//- Range Handle
 			&::-webkit-slider-thumb {
 				appearance: none;
 				width: $range-handle-width;
 				height: $range-handle-height;
 				border-radius: 2px;
-				background: $range-handle-color;
-				background: transparent;
+				background: $range-handle-color url('src/img/bg-slider-handle.png') 50% 50%/contain no-repeat;
 				cursor: ew-resize;
 				transition: background .15s ease-in-out;
-				position: relative;
-				z-index: 1;
-				// &:hover {
-				// 	background: $range-handle-color-hover;
-				// }
+				&:hover {
+					background-color: lighten($color-light-gray, 5%);
+				}
 			}
 
 			&:active::-webkit-slider-thumb {
-				//background: $range-handle-color-hover;
+				background-color: $range-handle-color-hover;
 			}
 
 			&::-moz-range-thumb {
-				content: 'ass';
 				width: $range-handle-width;
 				height: $range-handle-height;
 				border: 0;
@@ -155,16 +161,16 @@
 				cursor: ew-resize;
 				transition: background .15s ease-in-out;
 				&:hover {
-					background: $range-handle-color-hover;
+					background-color: $range-handle-color-hover;
 				}
 			}
 			&:active::-moz-range-thumb {
-				//background: $range-handle-color-hover;
+				background-color: $range-handle-color-hover;
 			}
 
 			// Firefox Overrides
 			::-moz-range-track {
-				background: $range-track-color;
+				background-color: $range-track-color;
 				border: 0;
 			}
 
@@ -173,24 +179,8 @@
 				border: 0;
 			}
 		}
-		input[type='color'] {
-			margin: 0;
-			background: $range-track-color;
-			-webkit-appearance: none;
-			display: inline-block;
-			border: none;
-			width: 30px;
-			height: 30px;
-			border-radius: 100%;
-			overflow: hidden;
-			position: relative;
-			outline: none;
-			cursor: pointer;
-			&::-webkit-color-swatch {
-				border: none;
-				position: absolute;
-				top: 0; right: 0; bottom: 0; left: 0;
-			}
+		input[type=range]:active + span:not(#font-color-val) {
+			opacity: 1;
 		}
 		label {
 			font: normal 1em/1 'Calibre-Semibold', sans-serif;
@@ -212,7 +202,7 @@
 				width: 10%;
 				text-align: center;
 				&:nth-of-type(1) {
-					font-style: 1em;
+					font-size: 1em;
 					transform: translate(-100%, -50%);
 					left: 0;
 				}
@@ -222,31 +212,92 @@
 					right: 0;
 				}
 			}
+			#font-color {
+				position: absolute;
+				top: 50%;
+				left: 50px;
+				transform: translate(0, -50%);
+			}
+			#font-color-val {
+				height: auto;
+				line-height: 0;
+				position: relative;
+				top: 50%;
+				transform: translate(0, -50%);
+			}
+
 			span:not(#font-color-val) {
 				display: inline-block;
-				background: $color-dark-gray;
+				background: $color-primary-green;
 				color: white;
 				text-shadow: 0 1px 0px rgba(black, 0.3);
 				padding: 0 0.5em;
 				border-radius: 2px;
 				position: absolute;
-				top: 50%;
+				top: -200%;
 				margin-top: 3px;
-				width: $range-handle-width;
-				height: $range-handle-height;
-				line-height: $range-handle-height;
+				width: 60px;
+				height: 30px;
+				line-height: 30px;
 				box-sizing: border-box;
 				text-align: center;
+				opacity: 0;
 				transform: translate(-50%, -50%);
-				transition: opacity 0.15s linear 0s;
-				transition: background 0.15s linear;
-				z-index: 0;
-				cursor: ew-resize;
+				z-index: 1;
+				&:before {
+					content: '';
+					position: absolute;
+					border-width: 10px;
+					width: 0; height: 0;
+					border-style: solid;
+					border-color: $color-primary-green transparent transparent transparent;
+					left: 50%;
+					top: 100%;
+					transform: translate(-50%, 0);
+				}
 			}
 		}
-		input[type=range]:hover + span:not(#font-color-val) {
-			background: $color-primary-green;
+		label[for='font-width'] {
+			margin: 0;
+			float: right;
+			.icon:nth-of-type(1) {
+				position: absolute;
+				top: 50%;
+				width: 20%;
+				left: -10px;
+				transform: translate(-100%, -50%);
+				transform-origin: 100% 50%;
+				svg {
+					fill: $color-light-gray;
+					width: 100%;
+					top: 50%;
+					left: 0;
+					position: absolute;
+					transform: translate(0, -50%);
+				}
+			}
 		}
+		input[type='color'] {
+			margin: 0;
+			padding: 0;
+			background: $range-track-color;
+			-webkit-appearance: none;
+			display: inline-block;
+			border: none;
+			width: 30px;
+			height: 30px;
+			border-radius: 100%;
+			overflow: hidden;
+			position: relative;
+			outline: none;
+			cursor: pointer;
+			&::-webkit-color-swatch {
+				border: none;
+				position: absolute;
+				top: 0; right: 0; bottom: 0; left: 0;
+			}
+		}
+
 	}
 	.test-area {
 		overflow: hidden;
@@ -261,7 +312,7 @@
 		.test-buffer {
 			position: relative;
 			box-sizing: border-box;
-			padding: 30px 30px 90px;
+			padding: 30px 0 90px 30px;
 		}
 		&:before {
 			content: '';
@@ -333,6 +384,22 @@
 	}
 }
 
+.test-buffer {
+	position: relative;
+	&:after {
+		content: '';
+		position: absolute;
+		top: 0; right: 0; bottom: -20px;
+		width: 1px;
+		background: $color-primary-orange;
+		opacity: 0;
+		transition: opacity 0.15s linear;
+	}
+	&.active:after {
+		opacity: 1;
+	}
+}
+
 #alphabet {
 	padding: 0;
 	background: rgba($color-primary-black, 1);
@@ -355,113 +422,3 @@
 		}
 	}
 }
-
-/*
-	------------------------------------------------------------
-	Kerning Maps
-	------------------------------------------------------------
-*/
-
-[data-char='-'],
-[data-char='–'],
-[data-char='—'] {
-	+ [data-char='t'] {	margin-left: -0.075em; }
-}
-
-[data-char='A'],
-[data-char='a'] {
-	+ [data-char='g'] {	margin-left: -0.035em; }
-	+ [data-char='s'] { margin-left: -0.010em; }
-	+ [data-char='y'] {	margin-left: -0.080em; }
-	+ [data-char='u'] { margin-left: -0.025em; }
-	+ [data-char='v'] { margin-left: -0.075em; }
-}
-
-[data-char='D'],
-[data-char='d'] {
-	+ [data-char='a'] { margin-left: -0.035em; }
-	+ [data-char='v'] { margin-left: -0.035em; }
-	+ [data-char='y'] { margin-left: -0.050em; }
-}
-
-[data-char='F'],
-[data-char='f'] {
-	+ [data-char='a'] { margin-left: -0.045em; }
-}
-
-[data-char='G'],
-[data-char='g'] {
-	+ [data-char='a'] { margin-left: -0.025em; }
-}
-
-[data-char='J'],
-[data-char='j'] {
-	+ [data-char='a'] {	margin-left: -0.02em; }
-}
-
-[data-char='K'],
-[data-char='k']  {
-	+ [data-char='o'] {	margin-left: -0.035em; }
-}
-
-[data-char='L'],
-[data-char='l'] {
-	+ [data-char='y'] { margin-left: -0.085em; }
-}
-
-[data-char='O'],
-[data-char='o'] {
-	+ [data-char='w'] { margin-left: -0.02em; }
-}
-
-[data-char='P'],
-[data-char='p'] {
-	+ [data-char='a'] { margin-left: -0.06em; }
-	+ [data-char='t'] { margin-left: -0.01em; }
-}
-
-[data-char='R'],
-[data-char='r'] {
-	+ [data-char='v'] { margin-left: -0.015em; }
-	+ [data-char='y'] { margin-left: -0.025em; }
-}
-
-[data-char='S'],
-[data-char='S'] {
-	+ [data-char='a'] { margin-left: -0.015em; }
-}
-
-[data-char='T'],
-[data-char='t'] {
-	+ [data-char='a'] { margin-left: -0.065em; }
-	+ [data-char='o'] { margin-left: -0.025em; }
-}
-
-[data-char='O'],
-[data-char='o'] {
-	+ [data-char='y'] { margin-left: -0.06em; }
-	+ [data-char='v'] { margin-left: -0.035em; }
-}
-
-[data-char='V'],
-[data-char='v'] {
-	+ [data-char='a'] { margin-left: -0.075em; }
-	+ [data-char='o'] { margin-left: -0.035em; }
-}
-
-[data-char='W'],
-[data-char='w'] {
-	+ [data-char='o'] {	margin-left: -0.015em; }
-}
-
-[data-char='Y'],
-[data-char='y'] {
-	+ [data-char='-'] { margin-left: -0.075em; }
-	+ [data-char='–'] { margin-left: -0.075em; }
-	+ [data-char='—'] { margin-left: -0.075em; }
-	+ [data-char='a'] { margin-left: -0.08em; }
-	+ [data-char='o'] {	margin-left: -0.06em; }
-	+ [data-char='s'] {	margin-left: -0.035em; }
-}
-
-

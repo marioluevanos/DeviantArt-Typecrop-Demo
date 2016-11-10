@@ -32,6 +32,7 @@
 
     /* Initialize */
     document.addEventListener('DOMContentLoaded', function() {
+
         gallerySlider(slides)
             .init({
                 typeCrop: true,
