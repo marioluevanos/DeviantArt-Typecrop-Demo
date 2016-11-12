@@ -1,3 +1,9 @@
+@import 'grid';
+
+//- File Path
+// ---------------------------------
+$fp 					: 'src/img/';
+
 $color-white 			: #fff;
 $color-primary-white	: #F2F2F2;
 $color-black 			: #000;
@@ -24,12 +30,6 @@ $color-green-4			: #1F3626;
 //- COLOR - UI
 // ---------------------------------
 $color-primary-orange	: #F7590A;
-
-
-//- File Path
-// ---------------------------------
-$fp 					: 'src/img/';
-
 
 //- Fonts
 // ---------------------------------
@@ -63,7 +63,7 @@ $fonts: (
 
 /*
 	------------------------------------------------------------
-	Imports
+	BODY
 	------------------------------------------------------------
 */
 
@@ -136,7 +136,7 @@ hr {
 
 .logo-type {
 	position: fixed;
-	bottom: 30px;
+	bottom: 38px;
 	right: 30px;
 	fill: $color-primary-green;
 	height: 40px;
@@ -155,6 +155,25 @@ section.intro {
 		color: white;
 		font: normal 7vw/0.75 'Calibre-Bold';
 	}
+	.cta {
+		background: $color-primary-black;
+		position: absolute;
+		bottom: 0; left: 0; right: 0;
+		height: 120px;
+		svg.ui-shape-1 {
+			position: absolute;
+			bottom: 0; left: 0;
+			width: auto;
+			height: 100%;
+			fill: $color-primary-black;
+			transform: translate(-100%, 0);
+		}
+		hr {
+			opacity: 0.5;
+			position: absolute;
+			bottom: 0; left: 0; right: 0;
+		}
+	}
 }
 
 #svgs {
@@ -169,43 +188,6 @@ section {
 	.da-title {
 		color: $color-primary-green;
 		line-height: 0.75;
-	}
-}
-.v-center {
-	position: relative;
-	top: 50%;
-	transform: translate(0, -50%);
-}
-
-[class*='bg'] {
-	height: 100vh;
-	padding: 0;
-}
-
-.bg-2 {
-	background: url($fp + 'img-2.jpg') 50% 30%/cover no-repeat fixed;
-	display: none;
-	.da-title {
-		color: white;
-		font: normal 12vw/0.75 'Calibre-Bold';
-	}
-}
-
-.bg-3 {
-	background: url($fp + 'img-3.jpg') 50% 30%/cover no-repeat fixed;
-	display: none;
-	.da-title {
-		color: black;
-		font: normal 8vw/0.75 'Calibre-Bold';
-	}
-}
-
-.bg-4 {
-	background: url($fp + 'img-4.jpg') 50% 100%/cover no-repeat fixed;
-	display: none;
-	.da-title {
-		color: $color-primary-green;
-		font: normal 7vw/0.75 'Calibre-Bold';
 	}
 }
 
@@ -260,6 +242,6 @@ section.about {
 	}
 }
 
-@import 'grid';
-@import 'typeCrop-slider';
-@import 'typeCrop-test';
+
+@import 'gallerySlider';
+@import 'TypeTest';

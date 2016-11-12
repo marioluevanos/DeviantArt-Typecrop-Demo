@@ -18,14 +18,14 @@ $ease-out				: cubic-bezier(0.20, 0.70, 0.20, 1.00);
 
 #slider .counter {
 	position: absolute;
-	top: -50%;
-	left: 0;
-	right: 0;
+	min-width: 96px;
+	display: none;
 	text-align: center;
 	width: 100%;
 	transform: translate(0, -100%);
 	font-size: 0.6em;
-	color: white;
+	margin-top: 0.5em;
+	color: $color-light-gray;
 	height: 100%;
 	> span:not(.counter-index) {
 		width: 50%;
@@ -38,7 +38,7 @@ $ease-out				: cubic-bezier(0.20, 0.70, 0.20, 1.00);
 		transform: translate(0, -50%);
 		&:last-of-type:before {
 			content: '';
-			border-left: 1px solid white;
+			border-left: 1px solid $color-dark-gray;
 			display: inline-block;
 			height: 1.15em;
 			width: 1px;
@@ -49,7 +49,7 @@ $ease-out				: cubic-bezier(0.20, 0.70, 0.20, 1.00);
 		}
 	}
 	.counter-index {
-		color: white;
+		color: $color-light-gray;
 		font-family: 'Calibre-Regular';
 		font-size: 1em;
 		position: absolute;
@@ -63,7 +63,7 @@ $ease-out				: cubic-bezier(0.20, 0.70, 0.20, 1.00);
 
 #slider #controls {
 	position: absolute;
-	bottom: 1em;
+	bottom: 40px;
 	left: 1em;
 	width: 3em;
 	height: 1em;
@@ -116,7 +116,6 @@ $ease-out				: cubic-bezier(0.20, 0.70, 0.20, 1.00);
 		right: 30%;
 		left: 0;
 		z-index: 1;
-		transform: skew(-28deg);
 		overflow: hidden;
 	}
 }
@@ -124,7 +123,6 @@ $ease-out				: cubic-bezier(0.20, 0.70, 0.20, 1.00);
 #slider #captions {
 	height: inherit;
 	position: relative;
-	transform: skew(28deg);
 	> figcaption {
 		position: absolute;
 		width: 70%;
@@ -153,7 +151,7 @@ $ease-out				: cubic-bezier(0.20, 0.70, 0.20, 1.00);
 			color: white;
 			display: block;
 			position: absolute;
-			bottom: 30px;
+			bottom: 40px;
 			white-space: nowrap;
 			span {
 				position: relative;
@@ -211,12 +209,12 @@ $ease-out				: cubic-bezier(0.20, 0.70, 0.20, 1.00);
 	}
 }
 
-#slider #captions > figcaption:nth-of-type(3) {
-	.title, p,
-	.credit {
-		color: $color-primary-black;
-	}
-}
+// #slider #captions > figcaption:nth-of-type(3){
+// 	.text h3.title,
+// 	.text p {
+// 		color: $color-primary-black;
+// 	}
+// }
 
 #slider #gallery {
 	height: 100%;
@@ -273,6 +271,12 @@ $ease-out				: cubic-bezier(0.20, 0.70, 0.20, 1.00);
 			left: 0;
 			background: black 50% 50%/cover no-repeat;
 			transform: translate3d(0, 0, 0);
+			&:before {
+				content: '';
+				position: absolute;
+				top: 0; right: 0; bottom: 0; left: 0;
+				background: linear-gradient(45deg, rgba(black, 0.35) 0%, rgba(black, 0) 100%);
+			}
 		}
 	}
 }

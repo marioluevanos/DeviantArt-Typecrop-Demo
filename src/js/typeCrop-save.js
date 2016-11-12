@@ -1,19 +1,46 @@
 define([], function() {
 
-    return function typeCrop(titles) {
+    'use strict';
 
-        'use strict';
+    return function typeCrop(titles, sourceFilePath) {
 
         var fontFamily = 'Calibre-Bold';
-        var svgID = 'typecrop-svg';
 
         /* Create a Array-like Node List of all the elements */
         var allTitles = document.querySelectorAll(titles);
 
+        /* A reference to the SVG deps, first invocation === 'null' */
+        var typeCropSVG = document.getElementById('typecrop-svg');
+
         /* Convert from node list to array */
         var words = [].slice.call(allTitles);
 
-        var svgAttributes = {
+        /* Set up RegEx pattern to match first and last letters */
+        var regEx = /\b^([a-zA-Z])|([a-zA-Z])$\b/gm;
+
+        /* Set default for SVG filepath */
+        sourceFilePath = sourceFilePath === undefined ? 'src/js/' : sourceFilePath;
+
+        /* Use a Promise for better control of aysnc methods */
+        var httpRequest = function (method, url) {
+            return new Promise(function(resolve, reject) {
+                var xhr = new XMLHttpRequest();
+                xhr.open(method, sourceFilePath + url);
+                xhr.onload = function() {
+                    if (this.status >= 200 && this.status < 300) {
+                        resolve(xhr.response);
+                    } else {
+                        reject({ status: this.status, statusText: xhr.statusText });
+                    }
+                };
+                xhr.onerror = function() {
+                    reject({ status: this.status, statusText: xhr.statusText });
+                };
+                xhr.send();
+            });
+        };
+
+         var svgAttributes = {
             A: {
                 viewBox: '0 0 233 417',
                 path: 'M187.1,110.9h-59L2.8,332h57.6l23.8-42.8h80.6l7.9,42.8H230L187.1,110.9z M110.5,241.6l34.9-62.3l11.2,62.3 H110.5z'
@@ -24,11 +51,15 @@ define([], function() {
             },
             B: {
                 viewBox: '0 0 201 417',
-                path: 'M156.2,217.8c16.2-5.8,29.5-23,29.5-46.8c0-39.6-27.7-60.1-73.8-60.1H97L17.2,261v71h101.5 c46.1,0,73.4-22,73.4-61.9C192.2,245.2,177.1,224.7,156.2,217.8z M72.3,158.4h33.1c16.9,0,25.9,6.1,25.9,19.8s-9,20.2-25.9,20.2 H72.3V158.4z M111.2,284.4H72.3v-42.8h38.9c16.2,0,25.2,8.3,25.2,21.6C136.4,275.8,127.4,284.4,111.2,284.4z'
+                path: 'M156.2,217.8c16.2-5.8,29.5-23,29.5-46.8c0-39.6-27.7-60.1-73.8-60.1H97L17.2,261v71h101.5\
+            c46.1,0,73.4-22,73.4-61.9C192.2,245.2,177.1,224.7,156.2,217.8z M72.3,158.4h33.1c16.9,0,25.9,6.1,25.9,19.8s-9,20.2-25.9,20.2\
+            H72.3V158.4z M111.2,284.4H72.3v-42.8h38.9c16.2,0,25.2,8.3,25.2,21.6C136.4,275.8,127.4,284.4,111.2,284.4z'
             },
             b: {
                 viewBox: '0 0 201 417',
-                path: 'M185.7,171c0-39.6-27.7-60.1-73.8-60.1H17.2v221h95.6l57-107.1c-4.1-3-8.7-5.4-13.6-7 C172.4,212.1,185.7,194.8,185.7,171z M72.3,158.4h33.1c16.9,0,25.9,6.1,25.9,19.8s-9,20.2-25.9,20.2H72.3V158.4z M111.2,284.4 H72.3v-42.8h38.9c16.2,0,25.2,8.3,25.2,21.6C136.4,275.8,127.4,284.4,111.2,284.4z'
+                path: 'M185.7,171c0-39.6-27.7-60.1-73.8-60.1H17.2v221h95.6l57-107.1c-4.1-3-8.7-5.4-13.6-7\
+            C172.4,212.1,185.7,194.8,185.7,171z M72.3,158.4h33.1c16.9,0,25.9,6.1,25.9,19.8s-9,20.2-25.9,20.2H72.3V158.4z M111.2,284.4\
+            H72.3v-42.8h38.9c16.2,0,25.2,8.3,25.2,21.6C136.4,275.8,127.4,284.4,111.2,284.4z'
             },
             C: {
                 viewBox: '0 0 217 417',
@@ -228,11 +259,10 @@ define([], function() {
         };
 
         var createSVG = function() {
-
             var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
             var defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
             var attrs = {
-                'id': svgID,
+                'id': 'typecrop-svg',
                 'xmlns:xlink': 'http://www.w3.org/1999/xlink',
                 'xmlns': 'http://www.w3.org/2000/svg',
                 'xml:space': 'preserve',
@@ -272,6 +302,7 @@ define([], function() {
                     };
 
                     group += vectorData();
+
                     group += '</g>';
 
                     return group;
@@ -286,75 +317,48 @@ define([], function() {
             return svg;
         };
 
-        /* Use a Promise for better control of aysnc methods */
-        var typeCrop = function () {
-            return new Promise(function(resolve, reject) {
-                resolve(createSVG());
-            });
-        };
-
-        /* Append the SVG to the DOM */
-        var appendSVG = function(svg) {
-
-            /* If typeCropSVG is already in the document */
-            if (document.querySelector('#' + svgID) === null) {
-
-                /* Append SVG */
-                document.body.appendChild(svg);
-            }
-
-            return svg;
-        };
+        document.body.appendChild(createSVG());
 
         /*
-            normalizeFirstLast(): All Callback that returns first & letter capitalized, the rest is lower-case
+            normalized(): All Callback that returns first & letter capitalized, the rest is lower-case
             @param {String} all - all original match string
             @param {String} g1 - capturing group 1
             @param {String} g2 - capturing group 2
             @param {Number} matchIndex - index where match is found
         */
-        var normalizeFirstLast = function(all, g1, g2, matchIndex, original) {
-
+        var normalized = function(all, g1, g2, matchIndex) {
             var firstLetter, lastLetter;
-            var lastChar = original.length - 1;
-
             if (matchIndex === 0) {
                 firstLetter = g1.toUpperCase();
             }
-            if (matchIndex === lastChar) {
-                lastLetter = g2.toLowerCase();
-            }
+            lastLetter = g2;
             return [firstLetter, lastLetter].join('');
         };
 
-        var sentenceCase = function(all, g1, matchIndex) {
-            var capitalize = ' ' + g1.toUpperCase();
-            return capitalize;
-        };
-
-        /* Set up RegEx pattern to match first and last letters */
-        var captureFirstLast = /\b^([a-zA-Z])|([a-zA-Z])$\b/gm;
-
-        /* Clean out any comments */
-        var removeComments = /<!--[\s\S]+?-->/gmi;
-
-        /* Trailing white-space at the begin and end of string */
-        var removeTrailingWhiteSpace = /^[^\w]+|[^\w.]*$/gm;
-
-        /* Any double spaces into single space */
-        var removeDoubleSpaces = /\s{2,}/g;
-
-        /* For senetence case  */
-        var captureEveryFirstLetter = /\s{1,}(\w{0,1})/g;
-
         var cleanString = function(string) {
             return string
+            /* Clean out any comments */
+            .replace(/<!--[\s\S]+?-->/gmi, '')
+
+            /* Trailing white-space at the begin and end of string */
+            .replace(/^[^\w]+|[^\w.]*$/gm, '')
+
+            /* Any double spaces into single space */
+            .replace(/\s{2,}/g, ' ')
+
             .toLowerCase()
-            .replace(removeComments, '')
-            .replace(removeTrailingWhiteSpace, '')
-            .replace(removeDoubleSpaces, ' ')
-            .replace(captureFirstLast, normalizeFirstLast)
-            .replace(captureEveryFirstLetter, sentenceCase);
+            .replace(regEx, normalized);
+        };
+
+        /*
+            loadSVG():
+            SVG file is loaded and returned as a type 'String.'
+            Therefore, we are creating a DOMParser instance to
+            parse the SVG string into the DOM as nodes.
+            @param {Object} data - The data returned from a Promise
+        */
+        var loadSVG = function(data) {
+            return new DOMParser().parseFromString(data, 'image/svg+xml');
         };
 
         /*
@@ -363,9 +367,18 @@ define([], function() {
         */
         var getAttributes = function(svgs) {
 
+            /* Creates a copy of SVG to add to document */
+            var importedSVG = document.importNode(svgs.documentElement, true);
+
+            /* If typeCropSVG is already in the document */
+            if (typeCropSVG === null) {
+                /* Append SVG */
+                //document.body.appendChild(importedSVG);
+            }
+
             /* Get first && last letter */
             var firstLast = words.map(function(word) {
-                return cleanString(word.innerHTML).match(captureFirstLast);
+                return cleanString(word.innerHTML).match(regEx);
             });
 
             /* Flatten nested arrays utils */
@@ -373,8 +386,10 @@ define([], function() {
                 return [].concat.apply([], arr);
             };
 
-            /* Flatten the letters array and return the group attributes */
-            return flatten(firstLast).map(function(el) {
+            /* Flatten the letters array */
+            var letters = flatten(firstLast);
+
+            return letters.map(function(el) {
 
                 // Check if el is not a number in order to select from the group ID
                 var group = isNaN(el) ? svgs.querySelector('g#' + el) : null;
@@ -565,8 +580,7 @@ define([], function() {
                 g: {
                     a: { kern: -0.025 },
                     g: { kern:  0.005 },
-                    o: { kern:  0.005 },
-                    ',': { kern:  -0.015 }
+                    o: { kern:  0.005 }
                 },
                 i: {
                     o: { kern: -0.001 }
@@ -597,8 +611,7 @@ define([], function() {
                 t: {
                     a: { kern: -0.065 },
                     o: { kern: -0.025 },
-                    w: { kern:  0.010 },
-                    y: { kern:  0.010 }
+                    w: { kern:  0.010 }
                 },
                 o: {
                     t: { kern: -0.015 },
@@ -620,8 +633,7 @@ define([], function() {
                     '–': { kern: -0.075 },
                     a: { kern: -0.080 },
                     o: { kern: -0.050 },
-                    s: { kern: -0.035 },
-                    t: { kern:  0.010 }
+                    s: { kern: -0.035 }
                 },
                 '9': {
                     '.': { kern: -0.025 }
@@ -641,7 +653,9 @@ define([], function() {
             };
 
             var kernRules = function(KM, i, parent) {
+
                 return Object.keys(parent).map(function(letter) {
+
                     var selector = Object.keys(KM)[i];
 
                     /* Kerning with margins */
@@ -649,7 +663,6 @@ define([], function() {
 
                     /* Data attr selector */
                     var data = function(s) {
-
                         return '[data-char="' + s + '"]';
                     };
 
@@ -697,22 +710,17 @@ define([], function() {
             document.head.appendChild(styleElement);
         };
 
-        var typeCropErr = function(err) {
-            console.warn('Opps! Something wrong with typeCrop(): ' + err);
-        };
-
         if (!document.getElementById('typecrop-css')) {
             typeCropCss();
         }
 
         /* Make request and get the SVG files */
-        return typeCrop()
-            .then(appendSVG)
+        return httpRequest('GET', 'typeCrop.svg')
+            .then(loadSVG)
             .then(getAttributes)
             .then(makeLetterSet)
             .then(createCatalog)
             .then(wrapLetters)
-            .then(replaceWithSVG)
-            .catch(typeCropErr);
+            .then(replaceWithSVG);
     }
 });
