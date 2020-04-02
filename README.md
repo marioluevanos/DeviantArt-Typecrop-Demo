@@ -1,8 +1,11 @@
-# ass
+# DeviantArt-Typecrop
+DeviantArt Branded Typography with SVG Replacement	DeviantArt Branded Typography with SVG Replacement
 
-Empty project.
+[Live Preview ](https://deviantart-typecrop.web.app/)
 
-## Building and running on localhost
+![alt Preview](https://github.com/marioluevanos/DA-TypeCrop/blob/master/preview.jpg)
+
+## Install Deps
 
 First install dependencies:
 
@@ -10,25 +13,24 @@ First install dependencies:
 npm install
 ```
 
+## Development
+
 To run in hot module reloading mode:
 
 ```sh
-npm start
+npm run dev
 ```
+
+## Build
 
 To create a production build:
 
 ```sh
-npm run build-prod
+npm run build
 ```
 
-## Running
+## Deploy
 
 ```sh
-node dist/bundle.js
+npm run deploy
 ```
-
-## Credits
-
-Made with [createapp.dev](https://createapp.dev/)
-
