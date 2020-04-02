@@ -13,8 +13,7 @@
     "build": "parcel build src/index.html"
   },
   "dependencies": {
-    "bundler": "^0.8.0",
-    "fontfaceobserver": "^2.1.0"
+    "deviantart-typecrop": "^1.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

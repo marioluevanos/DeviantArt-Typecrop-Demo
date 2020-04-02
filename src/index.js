@@ -1,4 +1,4 @@
-import typeCrop from './typeCrop'
+import typeCrop from 'deviantart-typecrop'
 import gallerySlider from './gallerySlider'
 import TypeTest from './TypeTest'
 
@@ -27,13 +27,14 @@ const slides = [
         artist: 'axcy',
         background: require('/assets/images/img-4.jpg')
     }
-];
+]
 
 gallerySlider(slides)
     .init({
         autoPlay: true,
         done: () => typeCrop('.title')
-    });
+    })
 
 new TypeTest()
-document.body.classList.add('loaded');
+
+document.body.classList.add('loaded')

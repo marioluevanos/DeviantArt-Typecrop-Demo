@@ -1,4 +1,4 @@
-import typeCrop from './typeCrop'
+import typeCrop from 'deviantart-typecrop'
 import fontFace from './fontFace'
 
 export default function TypeTest() {
