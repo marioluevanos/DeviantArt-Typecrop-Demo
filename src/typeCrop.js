@@ -1,4 +1,5 @@
-import {alphabetPaths} from './alphabetPaths'
+import { alphabetPaths } from './alphabetPaths'
+import fontFace from './fontFace'
 
 export default function typeCrop(titles) {
     'use strict';
@@ -450,18 +451,6 @@ export default function typeCrop(titles) {
                 return a.concat(b);
             });
 
-        var loadWebFont = function () {
-            var fontFace = '';
-            fontFace += '@font-face {';
-            fontFace += 'font-family: ' + fontFamily + ';';
-            fontFace += 'src: url("src/fonts/CalibreWeb-Bold.eot");';
-            fontFace += 'src:';
-            fontFace += 'url("src/fonts/CalibreWeb-Bold.eot?#iefix") format("embedded-opentype"),';
-            fontFace += 'url("src/fonts/CalibreWeb-Bold.woff") format("woff");'
-            fontFace += '}';
-            return fontFace;
-        };
-
         var createStyleSheet = function (styles) {
             var style = document.createElement('style');
             style.setAttribute('id', 'typecrop-css');
@@ -473,7 +462,7 @@ export default function typeCrop(titles) {
                 via webfont, then the alignment will break
                 with desktop version of Calibre
             */
-            style.innerHTML += loadWebFont();
+            style.innerHTML += fontFace();
             return style;
         };
 

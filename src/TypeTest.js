@@ -1,6 +1,5 @@
 import typeCrop from './typeCrop'
-import { eot, woff } from './base64Fonts'
-const fontFamily = 'Calibre-Bold'
+import fontFace from './fontFace'
 
 export default function TypeTest() {
     
@@ -355,7 +354,6 @@ TypeTest.prototype = {
         var canvasStyles = (attrs) => {
             var css = {
                 'h3.sample': {
-                    'font-family': fontFamily,
                     'font-size': this.getFont().size(),
                     'font-weight': 'normal',
                     'line-height': '0.8',
@@ -382,18 +380,8 @@ TypeTest.prototype = {
                 }, '');
             }).join();
 
-            var webFontCSS = () => {
-                var fontFace = '';
-                fontFace += '@font-face {';
-                fontFace += 'font-family: ' + fontFamily + ';';
-                fontFace += `src: url("data:font/opentype; base64, ${ eot }") format("embedded-opentype");`;
-                fontFace += `src: url("data:application/x-font-woff; base64, ${ woff }") format("woff");`;
-                fontFace += '}';
-                return fontFace;
-            };
-
             attrs.styles = '<style>';
-            attrs.styles += webFontCSS();
+            attrs.styles += fontFace();
             attrs.styles += newCSS.replace(/,/g, '');
             attrs.styles += '</style>';
 

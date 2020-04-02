@@ -1,7 +1,6 @@
 import typeCrop from './typeCrop'
 import gallerySlider from './gallerySlider'
 import TypeTest from './TypeTest'
-import FontFaceObserver from 'fontfaceobserver'
 
 const slides = [
     {
@@ -30,16 +29,11 @@ const slides = [
     }
 ];
 
-const font = new FontFaceObserver('Calibre-Bold')
+gallerySlider(slides)
+    .init({
+        autoPlay: true,
+        done: () => typeCrop('.title')
+    });
 
-font.load().then(() => {
-    gallerySlider(slides)
-        .init({
-            autoPlay: true,
-            done: () => typeCrop('.title')
-        });
-
-    new TypeTest()
-
-    document.body.classList.add('loaded');
-})
+new TypeTest()
+document.body.classList.add('loaded');

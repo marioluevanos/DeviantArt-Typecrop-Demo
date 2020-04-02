@@ -1,7 +1,7 @@
 {
-  "name": "deviantart-typecrop",
+  "name": "da-typecrop-demo",
   "version": "1.0.0",
-  "description": "DeviantArt Typecrop",
+  "description": "DeviantArt Typecrop Demo",
   "main": "index.js",
   "keywords": [],
   "author": "",
@@ -13,6 +13,7 @@
     "build": "parcel build src/index.html"
   },
   "dependencies": {
+    "bundler": "^0.8.0",
     "fontfaceobserver": "^2.1.0"
   },
   "devDependencies": {
