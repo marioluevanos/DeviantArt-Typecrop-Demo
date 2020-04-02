@@ -3,7 +3,7 @@ DeviantArt Branded Typography with SVG Replacement	DeviantArt Branded Typography
 
 [Live Preview ](https://deviantart-typecrop.web.app/)
 
-![alt Preview](https://github.com/marioluevanos/DA-TypeCrop-Demo/blob/master/preview.jpg)
+![alt Preview](https://github.com/marioluevanos/DeviantArt-TypeCrop-Demo/blob/master/preview.jpg)
 
 ## Install Deps
 
