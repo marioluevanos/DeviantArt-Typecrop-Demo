@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>DeviantArt Typecrop</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta charset="UTF-8">
+    <link rel='stylesheet' href='./assets/styles/gallerySlider.scss'>
+    <link rel='stylesheet' href='./assets/styles/Typetest.scss'>
+    <link rel='stylesheet' href='./assets/styles/index.scss'>
+</head>
+<body>
+    <svg viewBox="0 0 126.5 204" class="logo-mark" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <use xlink:href="#logo-mark"></use>
+    </svg>
+    <svg viewBox="0 0 592 204" class="logo-type" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <use xlink:href="#logo-type"></use>
+    </svg>
+    <section class='intro'>
+        <div id="slider">
+            <div data-main="data-main" class="mask">
+                <div id="controls">
+                    <button class="control prev">
+                        <svg viewBox="0 0 22.7 34.4" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <use xlink:href="#icon-arrow-stroke"></use>
+                        </svg>
+                    </button>
+                    <button class="control next">
+                        <svg viewBox="0 0 22.7 34.4" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <use xlink:href="#icon-arrow-stroke"></use>
+                        </svg>
+                    </button>
+                </div>
+                <div data-captions="data-captions" class="mask">
+                    <div id="captions"></div>
+                </div>
+                <div data-gallery="data-gallery" class="mask">
+                    <div id="gallery"></div>
+                </div>
+            </div>
+        </div>
+        <div class="cta">
+            <hr>
+        </div>
+    </section>
+    <div id='test'>
+        <div class="wrap clear">
+            <div class="col-12">
+                <h4>SVG Replacement Demo</h4>
+                <div class="test-inputs clear">
+                    <input type='text' placeholder='Type Something' value='Sixty Two' id='input' class='input-val' tabindex="1" />
+                    <input class='button' type='button' value='Enter' id='enter' />
+                </div>
+                <div class="test-options clear">
+                    <div class="test-option-control">
+                        <label for="font-size">
+                            <i class="icon">A</i>
+                            <input type="range" value='124' max="480" min="30" step="1" id="font-size" tabindex="1">
+                            <span id="font-size-val"></span>
+                            <i class="icon">A</i>
+                        </label>
+                    </div>
+                    <div class="test-option-control">
+                        <label for="font-width">
+                            <i class="icon">
+                                <svg viewBox="0 0 54 16" class='icon-width' xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <use xlink:href="#icon-width"></use>
+                                </svg>
+                            </i>
+                            <input type="range" value='100' max="100" min="30" step="1" id="font-width" tabindex="1">
+                            <span id="font-width-val"></span>
+                        </label>
+                    </div>
+                    <div class="test-option-control">
+                        <label for="font-color">
+                            <span id="font-color-val">
+                                Color:
+                            </span>
+                            <input type="color" value="#05CC47" id='font-color' tabindex="1" />
+                        </label>
+                    </div>
+                </div>
+                <div class='test-area'>
+                    <div class="test-buffer">
+                        <h3 class='test-target input-val'></h3>
+                        <canvas id='canvas'></canvas>
+                    </div>
+                    <button id='download'>
+                        <span>
+                            <svg viewBox='0 0 23.4 29.8' class='icon-download' xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <use xlink:href='#icon-download'></use>
+                            </svg>Download PNG
+                        </span>
+                        <svg viewBox='0 0 265 359' class='ui-shape-1' xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <use xlink:href='#ui-shape-1'></use>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="code">
+            <div class="wrap clear">
+                <div class="col-6">
+                    <h4>HTML</h4>
+                    <pre class="prettyprint lang-js linenums">&lt;h1 class='title'&gt;Hello World&lt;/h1&gt;</pre>
+                </div>
+                <div class="col-6">
+                    <h4>Javascript</h4>
+                    <pre class="prettyprint lang-js linenums">typeCrop('.title');</pre>
+                </div>
+            </div>
+        </div>
+        <hr>
+    </div>
+    <section class='about'>
+        <div class='col'>
+            <div class="txt">
+                <h3 class='da-title'>Branded Typography</h3>
+                <p>Typography is the vessel that carries our voice. It visually sets the tone before it is even heard. The primary typeface is the Calibre family, a clean sans serif font for communicating brand messaging with unwavering confidence.</p>
+                <p>The web is 95% typography, or so they say. With that in mind, the Calibre font-face should be used when possible. Even with most browsers’ near perfect support of font-face, as good practice, a typical sans serif web-safe font stack should be used.</p>
+            </div>
+        </div>
+        <div id="alphabet" class='col'></div>
+    </section>
+    <svg id='svgs' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <defs>
+            <g id='logo-mark'>
+                <path d="M126.5,112.3v50.9H63.9l-5.5,3.7l-17.5,33.4l-3.7,3.7H0h0v-37.1l37.5-71.5l-3.1-3.7H0V40.8h62.6l5.5-3.7
+            L85.6,3.7L89.3,0h37.2h0v37.1L89,108.5l3.1,3.7H126.5z" />
+            </g>
+            <g id='logo-type'>
+                <path d="M555.7,24.3v44.9l-11.8,22.6h-15.7V24.3h-26V0H592l-12.7,24.3H555.7z M438.5,45.1v46.6H411V0h27.1l30.8,43.4V0
+            h27.5v91.7h-23.8L438.5,45.1z M374.1,78.4l-32.2,0l-7,13.4h-28.5L354.5,0h29.3l22,91.7l-28.5,0L374.1,78.4z M364,36.2l-10.5,20.1
+            h15.4L364,36.2z M356.1,204h-28.5l-3.2-13.4l-32.2,0l-7,13.3h-28.5l48.1-91.7h29.4L356.1,204z M314.3,148.5l-10.6,20.1h15.4
+            L314.3,148.5z M273.5,0H301v91.7h-27.5V0z M190.7,91.7L168.7,0h28.5l13.3,55.5L239.6,0h28.5L220,91.7H190.7z M91.5,0h70.2v24.3H119
+            v9.9h39.2v23.3H119v9.9h42.7v24.3H91.5V0z M37,91.7H0V76.1l26.6-50.6V68h8.6c13.5,0,22.1-8.6,22.1-22.1c0-13.7-8.6-22.3-22.1-22.3
+            h-7.6L39.9,0.1c28,1.1,44.4,18.8,44.4,45.8C84.3,73.8,66.8,91.7,37,91.7z M439.2,145.5c0,11.9-5,20.8-13.4,26.1l17,32.4h-28.5
+            l-13.3-26.8l-5.5,0h-6.7V204h-27.5v-91.7h43.6C424.9,112.3,439.2,124.4,439.2,145.5z M401,136.6h-12.2v18.5H401
+            c7.4,0,10.3-3.7,10.3-9.2C411.2,140.3,408.4,136.6,401,136.6z M520.3,136.6h-23.6v44.9L484.9,204h-15.7v-67.4h-26v-24.3H533
+            L520.3,136.6z" />
+            </g>
+            <g id='icon-arrow-stroke'>
+                <path d="M0,17.2L17,0l5.7,0v5.8L11.3,17.1l11.4,11.6v5.7H17L0,17.2z M17.6,1.5L2.1,17.2l15.5,15.7h3.6v-3.6l-12-12.2 l12-11.9V1.5H17.6z" />
+            </g>
+            <g id='icon-download'>
+                <polygon points="8.8,20.2 8.8,18.7 1.5,18.7 1.5,6.6 6.6,1.5 21.9,1.5 21.9,13.6 16.8,18.7 13.5,18.7 13.5,20.2 17.4,20.2 23.4,14.3 23.4,0 6,0 0,6 0,20.2" />
+                <polygon points="11.9,26.8 11.9,8.3 10.4,8.3 10.4,26.8 5.8,22.2 4.7,23.3 11.2,29.8 17.7,23.3 16.6,22.2" />
+            </g>
+            <g id='icon-width'>
+                <path d="M9.6,3H6.9L2,8V0H0v16h2V8l4.9,5h2.7L5.7,9H16V7H5.7L9.6,3z M52,0v8l-4.9-5h-2.7l3.9,4H38v2h10.3l-3.9,4h2.7 L52,8v8h2V0H52z" />
+            </g>
+            <g id='ui-shape-1'>
+                <path d="M1.4,359H265V0h-28.9l-48.4,32.6L34,325L0,359H1.4z" />
+            </g>
+            <g id='ui-shape-2'>
+                <path d="M118.52,191.186H0l26.373-17.873L118.52,0V191.186z" />
+            </g>
+            <g id='ui-shape-3'>
+                <path d="M196.6,60l10-6.7L235,0H0v60H196.6z" />
+            </g>
+        </defs>
+    </svg>
+    <script src='index.js'></script>
+    <script src='https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js'></script>
+</body>
+</html>

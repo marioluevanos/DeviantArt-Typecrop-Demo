@@ -1,0 +1,15 @@
+$fonts: (
+    'Calibre-Regular',
+    'Calibre-Semibold',
+    'Calibre-Bold'
+);
+@each $font in $fonts {
+    $url: '/assets/fonts/' + $font;
+    @font-face {
+        font-family: '#{$font}';
+        src: url($url + '.eot');
+        src: url($url + '.eot?#iefix') format('embedded-opentype'),
+             url($url + '.woff') format('woff');
+        font-display: swap;
+    }
+}

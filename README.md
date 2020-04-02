@@ -1,6 +1,34 @@
-# DA-TypeCrop
-DeviantArt Branded Typography with SVG Replacement
+# ass
 
-[Live Preview ](https://dl.dropboxusercontent.com/u/5866760/dev/DA-TypeCrop/index.html)
+Empty project.
 
-![alt Preview](https://github.com/marioluevanos/DA-TypeCrop/blob/master/preview.jpg)
+## Building and running on localhost
+
+First install dependencies:
+
+```sh
+npm install
+```
+
+To run in hot module reloading mode:
+
+```sh
+npm start
+```
+
+To create a production build:
+
+```sh
+npm run build-prod
+```
+
+## Running
+
+```sh
+node dist/bundle.js
+```
+
+## Credits
+
+Made with [createapp.dev](https://createapp.dev/)
+

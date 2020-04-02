@@ -1,0 +1,27 @@
+{
+  "name": "deviantart-typecrop",
+  "version": "1.0.0",
+  "description": "DeviantArt Typecrop",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "clean": "rm dist/bundle.js",
+    "dev": "parcel src/index.html",
+    "deploy": "firebase deploy --only hosting",
+    "build": "parcel build src/index.html"
+  },
+  "dependencies": {
+    "fontfaceobserver": "^2.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "autoprefixer": "^9.7.5",
+    "cssnano": "^4.1.10",
+    "parcel-bundler": "^1.12.4",
+    "postcss-modules": "^1.5.0",
+    "sass": "^1.26.3"
+  }
+}
