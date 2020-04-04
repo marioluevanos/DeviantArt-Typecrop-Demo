@@ -12,9 +12,6 @@
     "deploy": "firebase deploy --only hosting",
     "build": "parcel build src/index.html"
   },
-  "dependencies": {
-    "deviantart-typecrop": "^1.0.1"
-  },
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.0",

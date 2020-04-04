@@ -1,0 +1,28 @@
+@mixin bp($point) {
+
+    // Breakpoints
+    // -----------------------------------------
+    $breakpoint-mobile: 767px;
+    $breakpoint-tablet: 1023px;
+    $breakpoint-desktop: 1920px;
+
+    @if $point=='mobile' {
+        @media screen and(max-width: $breakpoint-mobile) {
+            @content;
+        }
+    }
+    @else if $point=='tablet' {
+        @media screen and(max-width: $breakpoint-tablet) {
+            @content;
+        }
+    }
+    @else if $point=='desktop' {
+        @media screen and(min-width: $breakpoint-desktop) {
+            @content;
+        }
+    }
+}
+
+@function vw($px) {
+	@return calc(#{$px}/var(--dw) * 100vw);
+}

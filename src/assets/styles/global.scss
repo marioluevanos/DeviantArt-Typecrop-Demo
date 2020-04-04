@@ -1,0 +1,95 @@
+@import 'vars';
+@import 'mixins';
+
+:root {
+    --hr-height: 120px;
+}
+
+body {
+    font-family: 'Calibre-Regular', Arial, Helvetica, Sans-serif;
+    background: $color-secondary-black;
+    height: 100vh;
+    margin: 0;
+    opacity: 0;
+    transition: opacity 0.3s linear 0.3s;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    &.loaded {
+        opacity: 1;
+    }
+    &:after {
+        content: '';
+        position: fixed;
+        top: 0; right: 0; bottom: 0;
+        left: 0;
+        background: $color-primary-black;
+        transform: translate(50%, 0) skew(-28deg);
+        z-index: -1;
+    }
+}
+
+h1, h2, h3, h4 {
+    text-transform: uppercase;
+    font-family: 'Calibre-Bold';
+    line-height: 0.8;
+    margin: 0;
+    color: white;
+}
+
+h2 { font-size: 10vmin; }
+
+section p {
+    margin: 0 0 15px;
+    color: white;
+    line-height: 1.3;
+    font-size: 1.33vmax;
+    @include bp(mobile) {
+        font-size: 1.99vmax;
+    }
+}
+
+.hr {
+    width: 100%;
+    height: var(--hr-height);
+    display: block;
+    background: $color-primary-black;
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0; 
+        right: 0; 
+        bottom: 0; 
+        left: 0;
+        background: black url($fp + 'bg-pattern-black.gif') 0 0/32px auto repeat;
+        opacity: 0.5;
+    }
+}
+
+.logo-mark {
+    position: fixed;
+    top: 30px;
+    left: 30px;
+    fill: $color-primary-green;
+    height: 40px;
+    width: auto;
+    z-index: 1337;
+}
+
+.logo-type {
+    position: fixed;
+    bottom: 38px;
+    right: 30px;
+    fill: $color-primary-green;
+    height: 40px;
+    width: auto;
+    z-index: 1337;
+    @include bp(mobile) {
+        display: none;
+    }
+}
+
+#svgs {
+    position: absolute;
+    width: 0;
+    height: 0;
+}

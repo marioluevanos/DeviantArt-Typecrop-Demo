@@ -1,43 +1,30 @@
-export default function gallerySlider (importedImages) {
-
-    importedImages = importedImages || [];
-
+export default function gallerySlider (importedImages = [], opt = {}) {
     /*
         Root target DIVs
         - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
-    var gallery = document.getElementById('gallery');
-    var captions = document.getElementById('captions');
-    var controls = document.getElementById('controls');
+    const gallery = document.getElementById('gallery');
+    const controls = document.getElementById('controls');
+    const credits = document.getElementById('credits');
+
+    if (!gallery || !controls || !credits) return;
 
     /*
         Gallery variables
         - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
     var currentIndex = 0;
     var isAnimating = false;
-    var formattedItems = importedImages.slice(0);
     var autoPlay = null;
+    var duration = 5000;
+    
+    /* Fire all functions needed */
+    [
+        buildFigures,
+        buildCredits,
+        buildCounter
+    ].forEach(fn => importedImages.forEach(fn));
 
-    /*
-        Initialize and fire it up
-        - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
-    function init (opt) {
-        /* Fire all functions needed */
-        [
-            buildFigures,
-            buildCaptions,
-            buildCounter
-        ].forEach(function (fn) {
-            formattedItems.forEach(fn);
-        });
-        if(opt.done) {
-            opt.done();
-        }
-        if(opt.autoPlay) {
-            autoPlay = setInterval(function () {
-                triggerMove();
-            }, 5000);
-        }
-    }
+    if(opt.done) opt.done();
+    if(opt.autoPlay) autoPlay = setInterval(() => triggerMove(), duration);
 
     /*
         Utilities
@@ -73,29 +60,29 @@ export default function gallerySlider (importedImages) {
     /*
         Loop each caption
         - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
-    function buildCaptions (item, i) {
+    function buildFigureCaption (item, i) {
         /* Captions container */
-        var figureCaption = document.createElement('figcaption');
-        var title = document.createElement('h3');
-        var text = document.createElement('div');
-        var artist = document.createElement('div');
+        const figureCaption = document.createElement('figcaption');
+        const title = document.createElement('h3');
 
-        classList(figureCaption).add(initialClass(i));
         classList(title).add('title');
-        classList(text).add('text');
-        classList(artist).add('credit');
-
 
         title.innerHTML = item.title;
-        artist.innerHTML += '<span>Artwork by</span><span>' + item.artist + '</span>';
 
         /* Append created image elements to the gallery */
-        text.appendChild(title);
-        text.innerHTML += '<p>' + item.text + '</p>';
-        figureCaption.appendChild(text);
-        figureCaption.appendChild(artist);
-        captions.appendChild(figureCaption);
-
+        figureCaption.appendChild(title);
+        figureCaption.innerHTML += '<p>' + item.text + '</p>';
+        return figureCaption
+    }
+    /*
+        Loop each caption
+        - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+    function buildCredits (item, i) {
+        var artist = document.createElement('div');
+        artist.classList.add('credit');
+        artist.classList.add(initialClass(i));
+        artist.innerHTML += '<span>Artwork by</span><span>' + item.artist + '</span>';
+        credits.appendChild(artist);
     }
     /*
         Loop each image
@@ -103,18 +90,17 @@ export default function gallerySlider (importedImages) {
     function buildFigures (item, i) {
 
         /* Figure container and image container */
-        var figure = document.createElement('figure');
-        var image = document.createElement('div');
+        const figure = document.createElement('figure');
+        const image = document.createElement('div');
+        const caption = buildFigureCaption(item, i);
 
-        classList(figure).add(initialClass(i));
-        classList(image).add('image');
+        figure.classList.add(initialClass(i));
+        
+        image.classList.add('image');
+        image.style.backgroundImage = `url(${ item.background })`;
 
-        image.style.backgroundImage = 'url(' + item.background + ')';
-
-        [image, image].forEach(function (val, i) {
-            figure.innerHTML += val.outerHTML;
-        });
-
+        figure.appendChild(image);
+        figure.appendChild(caption);
         gallery.appendChild(figure);
     }
     /*
@@ -132,7 +118,7 @@ export default function gallerySlider (importedImages) {
             var currentSlide = currentIndex + 1;
 
             /* And total number of slides */
-            counterTotal.innerHTML = (formattedItems.length);
+            counterTotal.innerHTML = (importedImages.length);
             counterIndex.innerHTML = currentSlide;
 
             // Add image counter */
@@ -160,7 +146,6 @@ export default function gallerySlider (importedImages) {
         controls.querySelector('.counter-index').innerHTML = currentIndex + 1;
     }
 
-
     function triggerMove (event) {
 
         var dirNext, dirPrev, direction;
@@ -182,7 +167,7 @@ export default function gallerySlider (importedImages) {
 
         if(dirNext) {
             /* If at the end of the array */
-            if(currentIndex === formattedItems.length - 1) {
+            if(currentIndex === importedImages.length - 1) {
                 /* Reset back to first */
                 currentIndex = 0;
                 direction = 'begin';
@@ -196,7 +181,7 @@ export default function gallerySlider (importedImages) {
             /* If at the begining of the array going in reverse */
             if(currentIndex === 0) {
                 /* Set back to last item in array */
-                currentIndex = formattedItems.length - 1;
+                currentIndex = importedImages.length - 1;
                 direction = 'end';
             } else {
                 currentIndex--;
@@ -209,14 +194,13 @@ export default function gallerySlider (importedImages) {
         */
         move([
             gallery.children,
-            captions.children
+            credits.children
         ], direction);
     }
 
     function move (items, direction) {
 
         items.forEach(function (item) {
-
             var dir
                 = (direction === 'next') ? 'prev'
                     : (direction === 'prev') ? 'next'
@@ -226,7 +210,7 @@ export default function gallerySlider (importedImages) {
                 = (direction === 'next') ? (currentIndex - 1)
                     : (direction === 'prev') ? (currentIndex + 1)
                         : (direction === 'begin') ? 0
-                            : (direction === 'end') ? formattedItems.length - 1
+                            : (direction === 'end') ? importedImages.length - 1
                                 : 0;
 
             classList(item[currentIndex])
@@ -278,9 +262,4 @@ export default function gallerySlider (importedImages) {
     }
 
     controls.addEventListener('click', triggerMove, false);
-
-    return {
-        init: init
-    };
-
 }

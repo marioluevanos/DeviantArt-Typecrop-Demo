@@ -1,0 +1,85 @@
+@import 'vars';
+@import 'mixins';
+
+section.about {
+    padding: 0;
+    background: $color-primary-white;
+    display: flex;
+    height: 100%;
+    @include bp(mobile) {
+        flex-direction: column;
+    }
+    .col {
+        width: 50%;
+        display: flex;
+        align-items: center;
+        @include bp(mobile) {
+            width: 100%;
+        }
+        &:nth-of-type(1) {
+            background: white;
+        }
+    }
+    .txt {
+        max-width: 25vw;
+        margin: auto;
+        position: relative;
+        @include bp(mobile) {
+            max-width: 350px;
+            padding: 120px 30px;
+        }
+    }
+}
+
+section.about h3.da-title {
+    font-size: 3.75vmax;
+    margin: 0 0 30px 0;
+    border-bottom: 1px solid rgba($color-light-gray, 0.3);
+    padding-bottom: 30px;
+    color: $color-black;
+}
+
+section.about p {
+    color: $color-dark-gray;
+    &:last-of-type {
+        margin: 0;
+    }
+}
+
+#all-alphabet {
+    background: $color-secondary-black;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    > div {
+        box-shadow:0 0 0 1px lighten($color-secondary-black, 10%);
+        text-align: center;
+        width: 100%;
+        height: 100%;
+        background: rgba($color-secondary-black, 1);
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 60px;
+        h2 {
+            font-size: 4.5vmin;
+            color: $color-light-gray;
+            @include bp(mobile) {
+                font-size: 8vmin;
+            }
+        }
+    }
+    @include bp(tablet) {
+        grid-template-columns: repeat(3, 1fr);
+        > div {
+            // width: 30%;
+        }
+    }
+    @include bp(mobile) {
+        grid-template-columns: repeat(2, 1fr);
+        > div {
+            min-height: 90px;
+        }
+    }
+    
+}
