@@ -33,21 +33,6 @@ export default function gallerySlider (importedImages = [], opt = {}) {
         return (i === 0) ? 'current' : 'next';
     }
 
-    function transitionEnd () {
-        var test = document.createElement('div');
-        var transitions = {
-            'transition': 'transitionend',
-            'OTransition': 'oTransitionEnd',
-            'MozTransition': 'transitionend',
-            'WebkitTransition': 'webkitTransitionEnd'
-        };
-        for(var t in transitions) {
-            if(test.style[t] !== undefined) {
-                return transitions[t];
-            }
-        }
-    }
-
     function classList (element) {
         var list = element.classList;
         return {
@@ -142,7 +127,7 @@ export default function gallerySlider (importedImages = [], opt = {}) {
     /*
         Stylistic option for titles
         - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
-    function trackCounterIndex () {
+    function updateCounterIndex () {
         controls.querySelector('.counter-index').innerHTML = currentIndex + 1;
     }
 
@@ -239,16 +224,16 @@ export default function gallerySlider (importedImages = [], opt = {}) {
 
         });
 
-        trackCounterIndex();
+        updateCounterIndex();
     }
 
     function animationGate (item) {
         var elapsedTime;
         /* Cycle through the elements to check if animation is complete */
         [].slice.call(item).forEach(function (elements) {
-            elements.addEventListener(transitionEnd(), function (e) {
+            elements.addEventListener('transitionend', (e) => {
                 elapsedTime = e.elapsedTime;
-                setTimeout(function () {
+                setTimeout(() => {
                     /* Change animating flag */
                     if(e.elapsedTime < elapsedTime) {
                         return;

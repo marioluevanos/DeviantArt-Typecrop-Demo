@@ -133,7 +133,7 @@ $ease-in: cubic-bezier(0.55, 0.085, 0.68, 0.53); //pow2
     position: absolute;
     width: 50%;
     height: calc(100% + var(--hr-height));
-    margin-left: 17%;
+    margin-left: 14%;
     display: flex;
     align-items: flex-start;
     justify-content: center;
@@ -161,11 +161,8 @@ $ease-in: cubic-bezier(0.55, 0.085, 0.68, 0.53); //pow2
     p {
         font-size: 2vmax;
         line-height: 1.25;
-        max-width: 60%;
+        max-width: 70%;
         margin: 0;
-        @include bp(mobile) {
-            max-width: 70%;
-        }
     }
 }
 
