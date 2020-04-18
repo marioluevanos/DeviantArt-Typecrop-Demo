@@ -5,6 +5,17 @@
     --hr-height: 120px;
 }
 
+::selection {
+	color: $color-green-2;
+	background: $color-green-4;
+	-webkit-text-stroke-color: $color-green-2;
+}
+::-moz-selection {
+	color: $color-green-2;
+	background: $color-green-4;
+	-webkit-text-stroke-color: $color-green-2;
+}
+
 body {
     font-family: 'Calibre-Regular', Arial, Helvetica, Sans-serif;
     background: $color-secondary-black;

@@ -1,11 +1,27 @@
 @import 'vars';
 @import 'mixins';
 
-$ease-in-out : cubic-bezier(0.455, 0.03, 0.515, 0.955); // pow2
+$ease-in-out : cubic-bezier(0.445, 0.05, 0.55, 0.95); // sine
 $ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94); //pow2
 $ease-in: cubic-bezier(0.55, 0.085, 0.68, 0.53); //pow2
 
+// Easing 
+// -----------------------------------------
+$ease-in-pow3: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+$ease-out-pow3: cubic-bezier(0.215, 0.610, 0.355, 1);
+
+$ease-out-sine: cubic-bezier(0.39, 0.575, 0.565, 1);
+$ease-in-sine: cubic-bezier(0.47, 0, 0.745, 0.715);
+
+$ease-in-out-expo: cubic-bezier(1, 0, 0, 1);
+$ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+$ease-in-expo: cubic-bezier(0.95, 0.05, 0.795, 0.035);
+
+$ease-in-out-sine: cubic-bezier(0.39, 0.575, 0.565, 1);
+
 #slider {
+    --duration: 2s;
+    --inner-dur: calc(var(--duration)/2);
     background: $color-primary-black;
     position: relative;
     width: 100%;
@@ -30,7 +46,7 @@ $ease-in: cubic-bezier(0.55, 0.085, 0.68, 0.53); //pow2
     z-index: 1337;
 }
 
-#slider .control {
+#slider .control-button {
     width: auto;
     height: 30%;
     min-height: 32px;
@@ -42,7 +58,7 @@ $ease-in: cubic-bezier(0.55, 0.085, 0.68, 0.53); //pow2
     position: relative;
     outline: none;
     svg {
-        fill: white;
+        fill: $color-gray-light;
         width: auto;
         height: 100%;
     }
@@ -74,11 +90,12 @@ $ease-in: cubic-bezier(0.55, 0.085, 0.68, 0.53); //pow2
         text-align: center;
         align-items: center;
         justify-content: center;
+        font-variant-numeric: tabular-nums;
     }
     > span:not(.counter-index) {
         &:last-of-type:before {
             content: '';
-            border-left: 1px solid white;
+            border-left: 1px solid $color-gray-light;
             display: inline-block;
             height: 1.15em;
             width: 1px;
@@ -98,7 +115,7 @@ $ease-in: cubic-bezier(0.55, 0.085, 0.68, 0.53); //pow2
     margin-left: 30px;
     position: relative;
     z-index: 1337;
-    .credit {
+    div {
         opacity: 0;
         transition: opacity 0.3s $ease-in;
         position: absolute;
@@ -109,7 +126,7 @@ $ease-in: cubic-bezier(0.55, 0.085, 0.68, 0.53); //pow2
         user-select: none;
         z-index: 0;
     }
-    .credit span {
+    div span {
         font-size: 0.6em;
         line-height: 1.5;
         display: block;
@@ -120,7 +137,7 @@ $ease-in: cubic-bezier(0.55, 0.085, 0.68, 0.53); //pow2
             user-select: none;
         }
     }
-    .credit.current {
+    div.current {
         opacity: 1;
         display: block;
         transition: opacity 0.6s $ease-out;
@@ -139,6 +156,11 @@ $ease-in: cubic-bezier(0.55, 0.085, 0.68, 0.53); //pow2
     justify-content: center;
     flex-direction: column;
     opacity: 1;
+    transform: translate3d(5%, 0, 0);
+    transition: 
+        clip-path var(--inner-dur) $ease-in-expo 0s,
+        opacity var(--inner-dur) $ease-in-expo 0s,
+        transform var(--inner-dur) $ease-in-expo 0s;
     @include bp(tablet) {
         width: auto;
         margin: 0 15% 0 15%;
@@ -166,67 +188,84 @@ $ease-in: cubic-bezier(0.55, 0.085, 0.68, 0.53); //pow2
     }
 }
 
-#slider #gallery {
+#gallery {
     width: 100%;
     height: calc(100% - var(--hr-height));
     position: absolute;
     top: 0; 
     left: 0;
-    > figure {
-        margin: 0;
+}
+
+#gallery figure {
+    margin: 0;
+    position: absolute;
+    top: 0;	right: 0; bottom: 0; left: 0;
+    box-sizing: border-box;
+    height: 100%;
+    overflow: hidden;
+    will-change: transition;
+    transform: translate3d(0, 0, 0);
+    transform-origin: 0% 100%;
+    transition: 
+        clip-path 0.6s $ease-in-expo,
+        opacity 0.6s $ease-in-expo,
+        transform 0.6s $ease-in-expo;
+    user-select: none;
+    .image {
         position: absolute;
-        top: 0;	right: 0; bottom: 0; left: 0;
-        box-sizing: border-box;
+        width: 100%;
         height: 100%;
-        overflow: hidden;
-        will-change: transition;
-        transform: translate3d(0, 0, 0);
-        transform-origin: 0% 100%;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: black 50% 50%/cover no-repeat;
+        transform: translate3d(0, 0, 0) scale(1.05) rotate(0deg);
+        transform-origin: 0 50%;
         transition: 
-            clip-path 0.6s $ease-in-out,
-            opacity 0.6s $ease-in-out,
-            transform 0.6s $ease-in-out;
-        user-select: none;
-        &.prev {
-            transform: translate3d(-10%, 0, 0);
-            clip-path: inset(0 100% 0 0);
-            transition-delay: 0.6s;
-            transition-timing-function: $ease-in;
-            z-index: 0;
-        }
-        &.current {
-            transition-delay: 0s;
-            transform: translate3d(0, 0, 0);
-            clip-path: inset(0 0% 0 0);
-            transition-timing-function: $ease-out;
-            z-index: 2;
-            user-select: all;
-        }
-        &.next {
-            transition-delay: 0s;
-            transform: translate3d(10%, 0, 0);
-            clip-path: inset(0 0 0 100%);
-            transition-timing-function: $ease-in;
-            z-index: 1;
-        }
-        .image {
+            clip-path var(--inner-dur) $ease-in-out 0s,
+            opacity var(--inner-dur) $ease-in-out 0s,
+            transform var(--inner-dur) $ease-in-out 0s;
+        &:before {
+            content: '';
             position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            background: black 50% 50%/cover no-repeat;
-            transform: translate3d(0, 0, 0);
-            &:before {
-                content: '';
-                position: absolute;
-                top: 0; right: 0; bottom: 0; left: 0;
-                background: linear-gradient(62deg, rgba(black, 0.65) 30%, rgba(black, 0) 100%);
-            }
+            top: 0; right: 0; bottom: 0; left: 0;
+            background: linear-gradient(62deg, rgba(black, 0.65) 30%, rgba(black, 0) 100%);
         }
     }
+}
+
+#gallery figure.prev {
+    transform: translate3d(-10%, 0, 0);
+    clip-path: inset(0 100% 0 0);
+    transition-delay: 0.6s;
+    transition-timing-function: $ease-in-pow3;
+    z-index: 0;
+}
+
+#gallery figure.current {
+    transition-delay: 0s;
+    transform: translate3d(0, 0, 0);
+    clip-path: inset(0 0% 0 0);
+    transition-timing-function: $ease-out-pow3;
+    z-index: 2;
+    user-select: all;
+    .image {
+        transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+        transition-timing-function: $ease-out-pow3;
+    }
+    figcaption {
+        transform: translate3d(0%, 0, 0);
+        transition-timing-function: $ease-out-pow3;
+    }
+}
+
+#gallery figure.next {
+    transition-delay: 0s;
+    transform: translate3d(10%, 0, 0);
+    clip-path: inset(0 0 0 100%);
+    transition-timing-function: $ease-in-pow3;
+    z-index: 1;
 }
 
 #slider .hr {
@@ -234,4 +273,25 @@ $ease-in: cubic-bezier(0.55, 0.085, 0.68, 0.53); //pow2
     bottom: 0; 
     left: 0; 
     right: 0;
+}
+
+#slider .timer {
+    position: absolute;
+    bottom: var(--hr-height);
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: $color-gray-light;
+    transform-origin: 0% 50%;
+    transform: scale(0, 1);
+    z-index: 10;
+    &.active {
+        transform: scale(1, 1);
+        transition: all var(--duration) $ease-out-pow3;
+    }
+    &.exit {
+        transition: all var(--duration) $ease-in-pow3;
+        transform: scale(1, 1);
+        left: 100%  ;
+    }
 }
