@@ -1,16 +1,10 @@
 import gallerySlider from './gallerySlider'
-// import TypeTest from './TypeTest'
+import TypeTest from './TypeTest'
 import allAlphabet from './allAlphabet'
-const typeCrop = typecrop.default
 
 gallerySlider();
 
-// {
-//     autoPlay: true,
-//     done: () => typeCrop('.title')
-// }
-
-// new TypeTest()
+new TypeTest()
 
 allAlphabet('#all-alphabet')
 

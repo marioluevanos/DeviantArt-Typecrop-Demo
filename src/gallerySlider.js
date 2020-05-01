@@ -36,12 +36,12 @@ function onTimerEnd(isNext = true) {
         const curr = prev === state.gallery.length - 1 ? 0 : prev + 1;
         const next = curr === state.gallery.length - 1 ? 0 : curr + 1;
         EVENTS.emit('timerChange', { prev, curr, next });
-        console.log('isNext', { prev, curr, next });
+        // console.log('isNext', { prev, curr, next });
     }
     else {
         const curr = prev === 0 ? state.gallery.length - 1 : prev - 1;
         const next = curr === 0 ? state.gallery.length - 1 : curr - 1;
-        console.log('isPrev', { prev, curr, next });
+        // console.log('isPrev', { prev, curr, next });
         EVENTS.emit('timerChange', { prev, curr, next });
         
     }
@@ -82,7 +82,7 @@ function onTimerTransitionEnd(event) {
 }
 
 function onFigureTransitionEnd(event) {
-    console.log(event);
+    // console.log(event);
 }
 
 // ------------------------------------------------------------------------------
