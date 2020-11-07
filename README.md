@@ -2,7 +2,7 @@
 
 DeviantArt Branded Typography with SVG Replacement
 
-[Demo](https://deviantart-typecrop.web.app/)
+[Demo](https://typecrop.web.app/)
 
 [npm-CDN 1.0.7](https://npm-cdn.herokuapp.com/deviantart-typecrop@1.0.7/index.js)
 
